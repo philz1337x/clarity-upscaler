@@ -1,0 +1,2 @@
+cat <lora:more_details:5>
+Steps: 50, Sampler: Euler, CFG scale: 7.0, Seed: 803715625, Size: 512x512, Model hash: 6ce0161689, Model: v1-5-pruned-emaonly, Lora hashes: "more_details: 3b8aa1d351ef", Version: v1.7.0

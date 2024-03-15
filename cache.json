@@ -1,0 +1,26 @@
+{
+    "safetensors-metadata": {
+        "checkpoint/v1-5-pruned-emaonly.safetensors": {
+            "mtime": 1707282384.7290666,
+            "value": {
+                "format": "pt"
+            }
+        },
+        "lora/more_details": {
+            "mtime": 1707282511.967678,
+            "value": {}
+        }
+    },
+    "hashes": {
+        "checkpoint/v1-5-pruned-emaonly.safetensors": {
+            "mtime": 1707282384.7290666,
+            "sha256": "6ce0161689b3853acaa03779ec93eafe75a02f4ced659bee03f50797806fa2fa"
+        }
+    },
+    "hashes-addnet": {
+        "lora/more_details": {
+            "mtime": 1707282511.967678,
+            "sha256": "3b8aa1d351efcbf8152e6327671d1310f6052b261363521874bb57c2711f419d"
+        }
+    }
+}
