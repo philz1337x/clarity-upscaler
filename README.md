@@ -4,7 +4,7 @@
 
 [![Website](https://img.shields.io/badge/Website-ClarityAI.cc-blueviolet)](https://ClarityAI.cc) [![Twitter Follow](https://img.shields.io/twitter/follow/philz1337x?style=social)](https://twitter.com/philz1337x)
 
-[![Replicate](https://img.shields.io/badge/Demo-Replicate-purple)](https://replicate.com/philipp1337x/clarity-upscaler)
+[![Replicate](https://img.shields.io/badge/Demo-Replicate-purple)](https://replicate.com/philz1337x/clarity-upscaler)
 ![GitHub stars](https://img.shields.io/github/stars/philz1337x/clarity-upscaler?style=social&label=Star)
 
 <strong>Example Video:
@@ -45,4 +45,4 @@ masterpiece, best quality, highres, <lora:more_details:0.5> <lora:SDXLrender_v2.
 
 ## Replicate API for app integration
 
-- go to https://replicate.com/philipp1337x/clarity-upscaler/api
+- go to https://replicate.com/philz1337x/clarity-upscaler/api
