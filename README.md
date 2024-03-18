@@ -7,7 +7,9 @@
 [![Replicate](https://img.shields.io/badge/Demo-Replicate-purple)](https://replicate.com/philz1337x/clarity-upscaler)
 ![GitHub stars](https://img.shields.io/github/stars/philz1337x/clarity-upscaler?style=social&label=Star)
 
-<strong>Example Video:
+![Example video](example.gif)
+
+<strong>Full Video:
 https://x.com/philz1337x/status/1768679154726359128?s=20.</strong>
 
 </div>
