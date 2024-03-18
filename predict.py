@@ -54,6 +54,16 @@ class Predictor(BasePredictor):
         resemblance: float = Input(
             description="Resemblance, try from 0.3 - 1.6", default=0.6
         ),
+        tiling_width: int = Input(
+            description="Tile width",
+            choices=[16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256],
+            default=112
+        ),
+        tiling_height: int = Input(
+            description="Tile height",
+            choices=[16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256],
+            default=144
+        ),
         scheduler: str = Input(
             description="scheduler",
             choices=['DPM++ 2M Karras', 'DPM++ SDE Karras', 'DPM++ 2M SDE Exponential', 'DPM++ 2M SDE Karras', 'Euler a', 'Euler', 'LMS', 'Heun', 'DPM2', 'DPM2 a', 'DPM++ 2S a', 'DPM++ 2M', 'DPM++ SDE', 'DPM++ 2M SDE', 'DPM++ 2M SDE Heun', 'DPM++ 2M SDE Heun Karras', 'DPM++ 2M SDE Heun Exponential', 'DPM++ 3M SDE', 'DPM++ 3M SDE Karras', 'DPM++ 3M SDE Exponential', 'DPM fast', 'DPM adaptive', 'LMS Karras', 'DPM2 Karras', 'DPM2 a Karras', 'DPM++ 2S a Karras', 'Restart', 'DDIM', 'PLMS', 'UniPC'],
@@ -64,7 +74,7 @@ class Predictor(BasePredictor):
         ),
         seed: int = Input(
             description="Random seed. Leave blank to randomize the seed", default=1337
-        ),
+        )
     ) -> list[Path]:
         """Run a single prediction on the model"""
 
@@ -98,8 +108,8 @@ class Predictor(BasePredictor):
                         True,
                         1,
                         1,
-                        112,
-                        144,
+                        tiling_width,
+                        tiling_height,
                         4,
                         8,
                         "4x-UltraSharp",
