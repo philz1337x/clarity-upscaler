@@ -55,12 +55,12 @@ class Predictor(BasePredictor):
             description="Resemblance, try from 0.3 - 1.6", default=0.6
         ),
         tiling_width: int = Input(
-            description="Tile width",
+            description="Fractality, tile width",
             choices=[16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256],
             default=112
         ),
         tiling_height: int = Input(
-            description="Tile height",
+            description="Fractality, tile height",
             choices=[16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256],
             default=144
         ),
