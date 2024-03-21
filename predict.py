@@ -88,7 +88,7 @@ class Predictor(BasePredictor):
             description="Downscale the image", default=False
         ),
         downscaling_resolution: int = Input(
-            description="Downscaling resolution", ge=1, le=512, default=512
+            description="Downscaling resolution", default=768
         ),
     ) -> list[Path]:
         """Run a single prediction on the model"""
