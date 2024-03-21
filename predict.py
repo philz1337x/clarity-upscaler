@@ -9,6 +9,10 @@ from PIL import Image
 import uuid
 from io import BytesIO
 
+import cv2
+import numpy as np
+
+
 from cog import BasePredictor, Input, Path
 
 class Predictor(BasePredictor):
@@ -79,14 +83,45 @@ class Predictor(BasePredictor):
         ),
         seed: int = Input(
             description="Random seed. Leave blank to randomize the seed", default=1337
-        )
+        ),
+        downscaling: bool = Input(
+            description="Downscale the image", default=False
+        ),
+        downscaling_resolution: int = Input(
+            description="Downscaling resolution", ge=1, le=512, default=512
+        ),
     ) -> list[Path]:
         """Run a single prediction on the model"""
 
         from modules.api.models import StableDiffusionImg2ImgProcessingAPI
         
-        with open(image, "rb") as image_file:
-            img_base64 = base64.b64encode(image_file.read()).decode()
+        image_file_path = image
+
+        with open(image_file_path, "rb") as image_file:
+            binary_image_data = image_file.read()
+
+        if downscaling:
+            image_np_array = np.frombuffer(binary_image_data, dtype=np.uint8)
+
+            image = cv2.imdecode(image_np_array, cv2.IMREAD_UNCHANGED)
+
+            height, width = image.shape[:2]
+            
+            if height > width:
+                scaling_factor = downscaling_resolution / float(height)
+            else:
+                scaling_factor = downscaling_resolution / float(width)
+            
+            new_width = int(width * scaling_factor)
+            new_height = int(height * scaling_factor)
+
+            resized_image = cv2.resize(image, (new_width, new_height))
+
+            _, binary_resized_image = cv2.imencode('.jpg', resized_image)
+            binary_image_data = binary_resized_image.tobytes()
+
+        base64_encoded_data = base64.b64encode(binary_image_data)
+        base64_image = base64_encoded_data.decode('utf-8')
 
         payload = {
             "override_settings": {
@@ -95,7 +130,7 @@ class Predictor(BasePredictor):
                  "CLIP_stop_at_last_layers": 1,
             },
             "override_settings_restore_afterwards": False,
-            "init_images": [img_base64],
+            "init_images": [base64_image],
             "prompt": prompt,
             "negative_prompt": negative_prompt,
             "steps": num_inference_steps,
@@ -144,7 +179,7 @@ class Predictor(BasePredictor):
                             "module": "tile_resample",
                             "model": "control_v11f1e_sd15_tile",
                             "weight": resemblance,
-                            "image": img_base64,
+                            "image": base64_image,
                             "resize_mode": 1,
                             "lowvram": False,
                             "downsample": 1.0,
