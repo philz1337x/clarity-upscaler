@@ -11,7 +11,8 @@ from io import BytesIO
 
 import cv2
 import numpy as np
-
+from urllib.parse import urlparse
+import requests
 
 from cog import BasePredictor, Input, Path
 
@@ -40,6 +41,28 @@ class Predictor(BasePredictor):
         script_callbacks.app_started_callback(None, app)
         
         print(f"Startup time: {startup_timer.summary()}.")
+
+    def download_lora_weights(self, url: str):
+        folder_path = "models/Lora"
+
+        parsed_url = urlparse(url)
+        filename = os.path.basename(parsed_url.path)
+
+        if "civitai.com" in parsed_url.netloc:
+            filename = f"{os.path.basename(parsed_url.path)}.safetensors"
+
+        os.makedirs(folder_path, exist_ok=True)
+
+        file_path = os.path.join(folder_path, filename)
+
+        response = requests.get(url)
+        response.raise_for_status()
+
+        with open(file_path, "wb") as file:
+            file.write(response.content)
+
+        print("Lora saved under:", file_path)
+        return file_path
 
     def predict(
         self,
@@ -85,20 +108,28 @@ class Predictor(BasePredictor):
             description="Random seed. Leave blank to randomize the seed", default=1337
         ),
         downscaling: bool = Input(
-            description="Downscale the image", default=False
+            description="Downscale the image before upscaling. Can improve quality and speed for images with high resolution but lower quality", default=False
         ),
         downscaling_resolution: int = Input(
             description="Downscaling resolution", default=768
         ),
+        lora_links: str = Input(
+            description="Link to a lora file you want to use in your upscaling. Multiple links possible, seperated by comma",
+        )
     ) -> list[Path]:
         """Run a single prediction on the model"""
 
+        if lora_links:
+            lora_link = [link.strip() for link in lora_links.split(",")]
+            for link in lora_link:
+                self.download_lora_weights(link) 
+            
         from modules.api.models import StableDiffusionImg2ImgProcessingAPI
-        
-        image_file_path = image
 
         with open(image_file_path, "rb") as image_file:
             binary_image_data = image_file.read()
+
+        image_file_path = image
 
         if downscaling:
             image_np_array = np.frombuffer(binary_image_data, dtype=np.uint8)
