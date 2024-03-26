@@ -115,6 +115,7 @@ class Predictor(BasePredictor):
         ),
         lora_links: str = Input(
             description="Link to a lora file you want to use in your upscaling. Multiple links possible, seperated by comma",
+            default=""
         )
     ) -> list[Path]:
         """Run a single prediction on the model"""
@@ -126,10 +127,10 @@ class Predictor(BasePredictor):
             
         from modules.api.models import StableDiffusionImg2ImgProcessingAPI
 
+        image_file_path = image
+
         with open(image_file_path, "rb") as image_file:
             binary_image_data = image_file.read()
-
-        image_file_path = image
 
         if downscaling:
             image_np_array = np.frombuffer(binary_image_data, dtype=np.uint8)
