@@ -79,7 +79,7 @@ class Predictor(BasePredictor):
             description="Creativity, try from 0.3 - 0.9", ge=0, le=1, default=0.35
         ),
         resemblance: float = Input(
-            description="Resemblance, try from 0.3 - 1.6", default=0.6
+            description="Resemblance, try from 0.3 - 1.6", ge=0, le=3, default=0.6
         ),
         tiling_width: int = Input(
             description="Fractality, set lower tile width for a high Fractality",
