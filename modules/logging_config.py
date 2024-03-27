@@ -19,7 +19,7 @@ try:
     TQDM_IMPORTED = True
 except ImportError:
     # tqdm does not exist before first launch
-    # I will import once the UI finishes seting up the enviroment and reloads.
+    # I will import once the UI finishes seting up the environment and reloads.
     TQDM_IMPORTED = False
 
 def setup_logging(loglevel):
