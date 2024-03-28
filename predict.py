@@ -93,7 +93,7 @@ class Predictor(BasePredictor):
         ),
         sd_model: str = Input(
             description="Stable Diffusion model checkpoint",
-            choices=['epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]', 'juggernaut_reborn.safetensors [338b85bc4f]', 'juggernaut_final.safetensors'],
+            choices=['epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]', 'juggernaut_reborn.safetensors [338b85bc4f]', 'juggernaut_final.safetensors', 'flat2DAnimerge_v45Sharp.safetensors'],
             default="juggernaut_reborn.safetensors [338b85bc4f]",
         ),
         scheduler: str = Input(
@@ -119,7 +119,7 @@ class Predictor(BasePredictor):
         )
     ) -> list[Path]:
         """Run a single prediction on the model"""
-
+        print("Running prediction")
         if lora_links:
             lora_link = [link.strip() for link in lora_links.split(",")]
             for link in lora_link:
