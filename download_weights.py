@@ -18,12 +18,24 @@ def download_file(url, folder_path, filename):
         else:
             print(f"Error downloading the file. Status code: {response.status_code}")
 
-url_1 = "https://huggingface.co/philz1337x/upscaler/resolve/main/RealESRGAN_x4plus_anime_6B.pth?download=true"
-folder_path_1 = "models/ESRGAN"
+#upscaler
+url_1 = "https://huggingface.co/philz1337x/upscaler/resolve/main/4x-UltraSharp.pth?download=true"
+folder_upscaler = "models/ESRGAN"
 filename_1 = "RealESRGAN_x4plus_anime_6B.pth"
-download_file(url_1, folder_path_1, filename_1)
+download_file(url_1, folder_upscaler, filename_1)
 
+#embeddings
 url_2 = "https://huggingface.co/philz1337x/embeddings/resolve/main/verybadimagenegative_v1.3.pt?download=true"
-folder_path_2 = "embeddings"
+folder_embeddings = "embeddings"
 filename_2 = "verybadimagenegative_v1.3.pt"
-download_file(url_2, folder_path_2, filename_2)
+download_file(url_2, folder_embeddings, filename_2)
+
+#lora
+url_3 = "https://huggingface.co/philz1337x/loras/resolve/main/SDXLrender_v2.0.safetensors?download=true"
+folder_lora = "models/Lora"
+filename_3 = "SDXLrender_v2.0.safetensors"
+download_file(url_3, folder_lora, filename_3)
+
+url_4 = "https://huggingface.co/philz1337x/loras/resolve/main/more_details.safetensors?download=true"
+filename_4 = "more_details.safetensors"
+download_file(url_4, folder_lora, filename_4)
