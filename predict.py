@@ -119,7 +119,7 @@ class Predictor(BasePredictor):
         )
     ) -> list[Path]:
         """Run a single prediction on the model"""
-
+        print("Running prediction")
         if lora_links:
             lora_link = [link.strip() for link in lora_links.split(",")]
             for link in lora_link:
