@@ -18,6 +18,10 @@ https://x.com/philz1337x/status/1768679154726359128?s=20.</strong>
 
 I build open source AI apps. To finance my work i also build paid versions of my code. But feel free to use the free code. I post features and new projects on https://twitter.com/philz1337x
 
+# 🗞️ Updates
+
+- 2024.04.01: Support custom safetensors checkpoints
+
 # 🚀 Options to use Clarity-Upscaler
 
 ## User friendly Website
@@ -28,7 +32,7 @@ If you are not fimilar with cog, a1111 and dont't want to use Replicate (which i
 
 If you are not familiar with cog read: <a href=https://github.com/replicate/cog/blob/main/docs/getting-started-own-model.md>cog docs</a>
 
-- Download Checkpoints and LoRa's from Cvitai and put in /models folder
+- Download Checkpoints and LoRa's from Cvitai and put in /models folder (a download_weights.py file to prepare everything with one file is in work)
 
 ```
 https://civitai.com/models/46422/juggernaut
