@@ -18,24 +18,40 @@ def download_file(url, folder_path, filename):
         else:
             print(f"Error downloading the file. Status code: {response.status_code}")
 
-#upscaler
-url_1 = "https://huggingface.co/philz1337x/upscaler/resolve/main/4x-UltraSharp.pth?download=true"
-folder_upscaler = "models/ESRGAN"
-filename_1 = "RealESRGAN_x4plus_anime_6B.pth"
-download_file(url_1, folder_upscaler, filename_1)
+# Checkpoints
+download_file(
+    "https://huggingface.co/philz1337x/flat2DAnimerge_v45Sharp/resolve/main/flat2DAnimerge_v45Sharp.safetensors?download=true",
+    "models/Stable-diffusion",
+    "flat2DAnimerge_v45Sharp.safetensors"
+)
+download_file(
+    "https://huggingface.co/dantea1118/juggernaut_reborn/resolve/main/juggernaut_reborn.safetensors?download=true",
+    "models/Stable-diffusion",
+    "juggernaut_reborn.safetensors"
+)
 
-#embeddings
-url_2 = "https://huggingface.co/philz1337x/embeddings/resolve/main/verybadimagenegative_v1.3.pt?download=true"
-folder_embeddings = "embeddings"
-filename_2 = "verybadimagenegative_v1.3.pt"
-download_file(url_2, folder_embeddings, filename_2)
+# Upscaler Model
+download_file(
+    "https://huggingface.co/philz1337x/upscaler/resolve/main/4x-UltraSharp.pth?download=true",
+    "models/ESRGAN",
+    "4x-UltraSharp.pth"
+)
 
-#lora
-url_3 = "https://huggingface.co/philz1337x/loras/resolve/main/SDXLrender_v2.0.safetensors?download=true"
-folder_lora = "models/Lora"
-filename_3 = "SDXLrender_v2.0.safetensors"
-download_file(url_3, folder_lora, filename_3)
+# Embeddings
+download_file(
+    "https://huggingface.co/philz1337x/embeddings/resolve/main/verybadimagenegative_v1.3.pt?download=true",
+    "embeddings",
+    "verybadimagenegative_v1.3.pt"
+)
 
-url_4 = "https://huggingface.co/philz1337x/loras/resolve/main/more_details.safetensors?download=true"
-filename_4 = "more_details.safetensors"
-download_file(url_4, folder_lora, filename_4)
+# Lora Models
+download_file(
+    "https://huggingface.co/philz1337x/loras/resolve/main/SDXLrender_v2.0.safetensors?download=true",
+    "models/Lora",
+    "SDXLrender_v2.0.safetensors"
+)
+download_file(
+    "https://huggingface.co/philz1337x/loras/resolve/main/more_details.safetensors?download=true",
+    "models/Lora",
+    "more_details.safetensors"
+)
