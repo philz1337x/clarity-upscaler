@@ -184,7 +184,7 @@ class Predictor(BasePredictor):
                         tiling_height,
                         4,
                         8,
-                        "RealESRGAN_x4plus_anime_6B",
+                        "4x-UltraSharp",
                         scale_factor, 
                         False, 
                         0,
