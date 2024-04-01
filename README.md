@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1> Clarity-Upscaler: Reimagined image upscaling for everyone </h1>
+<h1> Clarity AI | AI Image Upscaler & Enhancer - free and open-source Magnific Alternative </h1>
 
 [![Website](https://img.shields.io/badge/Website-ClarityAI.cc-blueviolet)](https://ClarityAI.cc) [![Twitter Follow](https://img.shields.io/twitter/follow/philz1337x?style=social)](https://twitter.com/philz1337x)
 
