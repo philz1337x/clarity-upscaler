@@ -20,7 +20,7 @@ I build open source AI apps. To finance my work i also build paid versions of my
 
 # 🗞️ Updates
 
-- 2024.04.01: Support custom safetensors checkpoints
+- 04/01/2024: Support custom safetensors checkpoints
 
 # 🚀 Options to use Clarity-Upscaler
 
