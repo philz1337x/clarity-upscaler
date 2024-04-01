@@ -21,18 +21,20 @@ I build open source AI apps. To finance my work i also build paid versions of my
 # 🗞️ Updates
 
 - 04/01/2024: Support custom safetensors checkpoints
+- 03/28/2024: Anime upscaling (https://x.com/philz1337x/status/1773342568543346738?s=20)
+- 03/26/2024: LoRa Support
 
 # 🚀 Options to use Clarity-Upscaler
 
 ## User friendly Website
 
-If you are not fimilar with cog, a1111 and dont't want to use Replicate (which is quite simple), you can use my paid version at [ClarityAI.cc](https://ClarityAI.cc)
+If you are not fimilar with cog, a1111 and dont't want to use Replicate, you can use my paid version at [ClarityAI.cc](https://ClarityAI.cc)
 
 ## Deploy and run with cog (locally or cloud)
 
 If you are not familiar with cog read: <a href=https://github.com/replicate/cog/blob/main/docs/getting-started-own-model.md>cog docs</a>
 
-- Download Checkpoints and LoRa's from Cvitai and put in /models folder (a download_weights.py file to prepare everything with one file is in work)
+- Download Checkpoints and LoRa's from Cvitai and put in /models folder (a download_weights.py file to prepare everything with one file is a work in progress)
 
 ```
 https://civitai.com/models/46422/juggernaut
