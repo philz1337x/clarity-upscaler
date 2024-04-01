@@ -14,6 +14,8 @@ import numpy as np
 from urllib.parse import urlparse
 import requests
 
+import time
+
 from cog import BasePredictor, Input, Path
 
 class Predictor(BasePredictor):
@@ -63,6 +65,21 @@ class Predictor(BasePredictor):
 
         print("Lora saved under:", file_path)
         return file_path
+
+    def download_safetensors(self, url: str):
+        start_time_custom = time.time()
+
+        safetensors_path = "models/Stable-diffusion/custom.safetensors"
+
+        response = requests.get(url)
+        response.raise_for_status()
+
+        with open(safetensors_path, "wb") as file:
+            file.write(response.content)
+
+        print(f"Custom checkpoint downloading and saving took {time.time() - start_time_custom} seconds")
+
+        return safetensors_path
 
     def predict(
         self,
@@ -116,7 +133,11 @@ class Predictor(BasePredictor):
         lora_links: str = Input(
             description="Link to a lora file you want to use in your upscaling. Multiple links possible, seperated by comma",
             default=""
-        )
+        ),
+        custom_sd_model: str = Input(
+            description="Link to a custom safetensors checkpoint file you want to use in your upscaling. Will overwrite sd_model checkpoint.",
+            default=""
+        ),
     ) -> list[Path]:
         """Run a single prediction on the model"""
         print("Running prediction")
@@ -124,11 +145,16 @@ class Predictor(BasePredictor):
             lora_link = [link.strip() for link in lora_links.split(",")]
             for link in lora_link:
                 self.download_lora_weights(link) 
-            
+
+        if custom_sd_model:
+            path_to_custom_checkpoint = self.download_safetensors(custom_sd_model)
+            sd_model = "custom.safetensors"
+            self.api.refresh_checkpoints()
+
         from modules.api.models import StableDiffusionImg2ImgProcessingAPI
 
         image_file_path = image
-
+           
         with open(image_file_path, "rb") as image_file:
             binary_image_data = image_file.read()
 
@@ -243,6 +269,10 @@ class Predictor(BasePredictor):
             with open(filename, "wb") as f:
                 f.write(gen_bytes.getvalue())
             outputs.append(Path(filename))
-            
+        
+        if custom_sd_model:
+            os.remove(path_to_custom_checkpoint)
+            print(f"Custom checkpoint {path_to_custom_checkpoint} has been removed.")
+
         return outputs
     
