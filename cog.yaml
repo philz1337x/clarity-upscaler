@@ -15,8 +15,6 @@ build:
     - "gdown==5.1.0"
   run:
     - git config --global --add safe.directory /src
-    - git config --global --add safe.directory /src/extensions/sd-webui-controlnet
-    - git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /stable-diffusion-webui && cd /stable-diffusion-webui && git checkout 310d6b9075c6edb3b884bd2a41e1c17259b141e1
-    - git clone https://github.com/LLSean/cog-A1111-webui /cog-sd-webui
-    - python /cog-sd-webui/init_env.py --skip-torch-cuda-test
+    - git clone https://github.com/philz1337x/stable-diffusion-webui-cog-init /stable-diffusion-webui
+    - python /stable-diffusion-webui/init_env.py --skip-torch-cuda-test
 predict: "predict.py:Predictor"

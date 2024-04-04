@@ -1,55 +1,27 @@
-import os, sys, json
-#os.environ["XFORMERS_MORE_DETAILS"]="1"
-#os.environ["COMMANDLINE_ARGS"]="--vae-path models/VAE/vae-ft-mse-840000-ema-pruned.safetensors --xformers --reinstall-xformers"
 
 from modules import timer
-from modules import launch_utils
 from modules import initialize_util
 from modules import initialize
-from fastapi import FastAPI
-import base64
-from PIL import Image
-import uuid
-from io import BytesIO
-import cv2
-import numpy as np
 from urllib.parse import urlparse
+from fastapi import FastAPI
+from io import BytesIO
+
+import os, json
+import numpy as np
 import requests
+import base64
+import uuid
 import time
+import cv2
+
 from cog import BasePredictor, Input, Path
-
-#### check versions
-import torch
-import torchvision
-
-try:
-    import xformers
-    xformers_version = xformers.__version__
-except ImportError:
-    xformers_version = "xformers not installed"
-
-print(f"PyTorch Version: {torch.__version__}")
-print(f"xformers Version: {xformers_version}")
-print(f"Torchvision Version: {torchvision.__version__}")
-print(f"Python Version: {sys.version.split()[0]}")
-
-if torch.cuda.is_available():
-    cuda_version = torch.version.cuda
-    print(f"CUDA Version: {cuda_version}")
-else:
-    print("CUDA not available")
-
-#####
 
 class Predictor(BasePredictor):
     def setup(self) -> None:
         """Load the model into memory to make running multiple predictions efficient"""
-
-        print('GPU GPU GPU')
-        os.system("nvidia-smi")
-
+        
         os.environ['IGNORE_CMD_ARGS_ERRORS'] = '1'
-
+        
         startup_timer = timer.startup_timer
         startup_timer.record("launcher")
         
@@ -70,6 +42,7 @@ class Predictor(BasePredictor):
         script_callbacks.app_started_callback(None, app)
         
         from modules.api.models import StableDiffusionImg2ImgProcessingAPI
+        self.StableDiffusionImg2ImgProcessingAPI = StableDiffusionImg2ImgProcessingAPI
 
         file_path = Path("init.png")
         base64_encoded_data = base64.b64encode(file_path.read_bytes())
@@ -248,6 +221,11 @@ class Predictor(BasePredictor):
         """Run a single prediction on the model"""
         print("Running prediction")
         start_time = time.time()
+        
+        # checkpoint name changed bc hashing is deactivated so name is corrected here to old name to avoid breaking api calls
+        if sd_model == "epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]":
+            sd_model = "epicrealism_naturalSinRC1VAE.safetensors"
+    
         if lora_links:
             lora_link = [link.strip() for link in lora_links.split(",")]
             for link in lora_link:
@@ -257,11 +235,9 @@ class Predictor(BasePredictor):
             path_to_custom_checkpoint = self.download_safetensors(custom_sd_model)
             sd_model = "custom.safetensors"
             self.api.refresh_checkpoints()
-
-        from modules.api.models import StableDiffusionImg2ImgProcessingAPI
-
+        
         image_file_path = image
-           
+
         with open(image_file_path, "rb") as image_file:
             binary_image_data = image_file.read()
 
@@ -362,7 +338,7 @@ class Predictor(BasePredictor):
             }
         }
 
-        req = StableDiffusionImg2ImgProcessingAPI(**payload)
+        req = self.StableDiffusionImg2ImgProcessingAPI(**payload)
         resp = self.api.img2imgapi(req)
         info = json.loads(resp.info)
 

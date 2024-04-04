@@ -6,8 +6,6 @@ import sys
 import shlex
 
 commandline_args = os.environ.get('COMMANDLINE_ARGS', "")
-commandline_args = "-vae-path models/VAE/vae-ft-mse-840000-ema-pruned.safetensors --xformers --reinstall-xformers"
-print(f"COMMANDLINE_ARGS: {commandline_args}")
 sys.argv += shlex.split(commandline_args)
 
 cwd = os.getcwd()
