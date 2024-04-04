@@ -29,6 +29,11 @@ download_file(
     "models/Stable-diffusion",
     "juggernaut_reborn.safetensors"
 )
+download_file(
+    "https://huggingface.co/philz1337x/epicrealism/resolve/main/epicrealism_naturalSinRC1VAE.safetensors?download=true",
+    "models/Stable-diffusion",
+    "epicrealism_naturalSinRC1VAE.safetensors"
+)
 
 # Upscaler Model
 download_file(

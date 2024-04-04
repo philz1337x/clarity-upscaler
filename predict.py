@@ -1,26 +1,53 @@
+import os, sys, json
+#os.environ["XFORMERS_MORE_DETAILS"]="1"
+#os.environ["COMMANDLINE_ARGS"]="--vae-path models/VAE/vae-ft-mse-840000-ema-pruned.safetensors --xformers --reinstall-xformers"
+
 from modules import timer
 from modules import launch_utils
 from modules import initialize_util
 from modules import initialize
 from fastapi import FastAPI
 import base64
-import os, sys, json
 from PIL import Image
 import uuid
 from io import BytesIO
-
 import cv2
 import numpy as np
 from urllib.parse import urlparse
 import requests
-
 import time
-
 from cog import BasePredictor, Input, Path
+
+#### check versions
+import torch
+import torchvision
+
+try:
+    import xformers
+    xformers_version = xformers.__version__
+except ImportError:
+    xformers_version = "xformers not installed"
+
+print(f"PyTorch Version: {torch.__version__}")
+print(f"xformers Version: {xformers_version}")
+print(f"Torchvision Version: {torchvision.__version__}")
+print(f"Python Version: {sys.version.split()[0]}")
+
+if torch.cuda.is_available():
+    cuda_version = torch.version.cuda
+    print(f"CUDA Version: {cuda_version}")
+else:
+    print("CUDA not available")
+
+#####
 
 class Predictor(BasePredictor):
     def setup(self) -> None:
         """Load the model into memory to make running multiple predictions efficient"""
+
+        print('GPU GPU GPU')
+        os.system("nvidia-smi")
+
         os.environ['IGNORE_CMD_ARGS_ERRORS'] = '1'
 
         startup_timer = timer.startup_timer
@@ -42,6 +69,85 @@ class Predictor(BasePredictor):
         script_callbacks.before_ui_callback()
         script_callbacks.app_started_callback(None, app)
         
+        from modules.api.models import StableDiffusionImg2ImgProcessingAPI
+
+        file_path = Path("init.png")
+        base64_encoded_data = base64.b64encode(file_path.read_bytes())
+        base64_image = base64_encoded_data.decode('utf-8')
+
+        payload = {
+           "override_settings": {
+                "sd_model_checkpoint": "juggernaut_reborn.safetensors [338b85bc4f]",
+                "sd_vae": "vae-ft-mse-840000-ema-pruned.safetensors",
+                 "CLIP_stop_at_last_layers": 1,
+            },
+            "override_settings_restore_afterwards": False,
+            "prompt": "office building",
+            "steps": 1,
+            "init_images": [base64_image],
+            "denoising_strength": 0.1,
+            "do_not_save_samples": True,
+            "alwayson_scripts": {
+                "Tiled Diffusion": {
+                    "args": [
+                        True,
+                        "MultiDiffusion",
+                        True,
+                        True,
+                        1,
+                        1,
+                        112,
+                        144,
+                        4,
+                        8,
+                        "4x-UltraSharp",
+                        1.1, 
+                        False, 
+                        0,
+                        0.0, 
+                        3,
+                    ]
+                },
+                "Tiled VAE": {
+                    "args": [
+                        True,
+                        3072,
+                        192,
+                        True,
+                        True,
+                        True,
+                        True,
+                    ]
+
+                },
+                "controlnet": {
+                    "args": [
+                        {
+                            "enabled": True,
+                            "module": "tile_resample",
+                            "model": "control_v11f1e_sd15_tile",
+                            "weight": 0.2,
+                            "image": base64_image,
+                            "resize_mode": 1,
+                            "lowvram": False,
+                            "downsample": 1.0,
+                            "guidance_start": 0.0,
+                            "guidance_end": 1.0,
+                            "control_mode": 1,
+                            "pixel_perfect": True,
+                            "threshold_a": 1,
+                            "threshold_b": 1,
+                            "save_detected_map": False,
+                            "processor_res": 512,
+                        }
+                    ]
+                }
+            }
+        }
+        
+        req = StableDiffusionImg2ImgProcessingAPI(**payload)
+        self.api.img2imgapi(req)
+
         print(f"Startup time: {startup_timer.summary()}.")
 
     def download_lora_weights(self, url: str):
@@ -110,7 +216,7 @@ class Predictor(BasePredictor):
         ),
         sd_model: str = Input(
             description="Stable Diffusion model checkpoint",
-            choices=['epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]', 'juggernaut_reborn.safetensors [338b85bc4f]', 'juggernaut_final.safetensors', 'flat2DAnimerge_v45Sharp.safetensors'],
+            choices=['epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]', 'juggernaut_reborn.safetensors [338b85bc4f]', 'flat2DAnimerge_v45Sharp.safetensors'],
             default="juggernaut_reborn.safetensors [338b85bc4f]",
         ),
         scheduler: str = Input(
@@ -141,6 +247,7 @@ class Predictor(BasePredictor):
     ) -> list[Path]:
         """Run a single prediction on the model"""
         print("Running prediction")
+        start_time = time.time()
         if lora_links:
             lora_link = [link.strip() for link in lora_links.split(",")]
             for link in lora_link:
@@ -256,7 +363,6 @@ class Predictor(BasePredictor):
         }
 
         req = StableDiffusionImg2ImgProcessingAPI(**payload)
-
         resp = self.api.img2imgapi(req)
         info = json.loads(resp.info)
 
@@ -274,5 +380,6 @@ class Predictor(BasePredictor):
             os.remove(path_to_custom_checkpoint)
             print(f"Custom checkpoint {path_to_custom_checkpoint} has been removed.")
 
+        print(f"Prediction took {time.time() - start_time} seconds")
         return outputs
     
