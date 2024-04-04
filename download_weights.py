@@ -18,6 +18,11 @@ def download_file(url, folder_path, filename):
         else:
             print(f"Error downloading the file. Status code: {response.status_code}")
 
+# Prepare webui
+from modules.launch_utils import prepare_environment
+prepare_environment()
+
+
 # Checkpoints
 download_file(
     "https://huggingface.co/philz1337x/flat2DAnimerge_v45Sharp/resolve/main/flat2DAnimerge_v45Sharp.safetensors?download=true",
@@ -48,6 +53,11 @@ download_file(
     "embeddings",
     "verybadimagenegative_v1.3.pt"
 )
+download_file(
+    "https://huggingface.co/philz1337x/embeddings/resolve/main/JuggernautNegative-neg.pt?download=true",
+    "embeddings",
+    "JuggernautNegative-neg.pt"
+)
 
 # Lora Models
 download_file(
@@ -59,4 +69,11 @@ download_file(
     "https://huggingface.co/philz1337x/loras/resolve/main/more_details.safetensors?download=true",
     "models/Lora",
     "more_details.safetensors"
+)
+
+# Controlnet models
+download_file(
+    "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11f1e_sd15_tile.pth?download=true",
+    "models/ControlNet",
+    "control_v11f1e_sd15_tile.pth"
 )
