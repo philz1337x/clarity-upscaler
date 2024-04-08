@@ -155,7 +155,7 @@ class Predictor(BasePredictor):
         with open(safetensors_path, "wb") as file:
             file.write(response.content)
 
-        print(f"Custom checkpoint downloading and saving took {time.time() - start_time_custom} seconds")
+        print(f"Custom checkpoint downloading and saving took {round(time.time() - start_time_custom, 2)} seconds")
 
         return safetensors_path
 
