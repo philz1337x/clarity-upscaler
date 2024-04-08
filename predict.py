@@ -147,8 +147,7 @@ class Predictor(BasePredictor):
 
     def download_safetensors(self, url: str):
         start_time_custom = time.time()
-
-        safetensors_path = "models/Stable-diffusion/custom.safetensors"
+        safetensors_path = f"models/Stable-diffusion/custom-{uuid.uuid1()}.safetensors"
 
         response = requests.get(url)
         response.raise_for_status()
@@ -233,7 +232,7 @@ class Predictor(BasePredictor):
 
         if custom_sd_model:
             path_to_custom_checkpoint = self.download_safetensors(custom_sd_model)
-            sd_model = "custom.safetensors"
+            sd_model = os.path.basename(path_to_custom_checkpoint)
             self.api.refresh_checkpoints()
         
         image_file_path = image
