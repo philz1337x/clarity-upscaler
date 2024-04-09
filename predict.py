@@ -37,10 +37,13 @@ class Predictor(BasePredictor):
         
         self.api = Api(app, queue_lock)
         
+        model_response = self.api.get_sd_models()
+        print("Available checkpoints: ", str(model_response))
+
         from modules import script_callbacks
         script_callbacks.before_ui_callback()
         script_callbacks.app_started_callback(None, app)
-        
+
         from modules.api.models import StableDiffusionImg2ImgProcessingAPI
         self.StableDiffusionImg2ImgProcessingAPI = StableDiffusionImg2ImgProcessingAPI
 
@@ -48,9 +51,11 @@ class Predictor(BasePredictor):
         base64_encoded_data = base64.b64encode(file_path.read_bytes())
         base64_image = base64_encoded_data.decode('utf-8')
 
+        
+        
         payload = {
            "override_settings": {
-                "sd_model_checkpoint": "juggernaut_reborn.safetensors [338b85bc4f]",
+                "sd_model_checkpoint": "juggernaut_reborn.safetensors",
                 "sd_vae": "vae-ft-mse-840000-ema-pruned.safetensors",
                  "CLIP_stop_at_last_layers": 1,
             },
@@ -224,6 +229,8 @@ class Predictor(BasePredictor):
         # checkpoint name changed bc hashing is deactivated so name is corrected here to old name to avoid breaking api calls
         if sd_model == "epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]":
             sd_model = "epicrealism_naturalSinRC1VAE.safetensors"
+        if sd_model == "juggernaut_reborn.safetensors [338b85bc4f]":
+            sd_model = "juggernaut_reborn.safetensors"
     
         if lora_links:
             lora_link = [link.strip() for link in lora_links.split(",")]
@@ -355,6 +362,6 @@ class Predictor(BasePredictor):
             os.remove(path_to_custom_checkpoint)
             print(f"Custom checkpoint {path_to_custom_checkpoint} has been removed.")
 
-        print(f"Prediction took {time.time() - start_time} seconds")
+        print(f"Prediction took {round(time.time() - start_time,2)} seconds")
         return outputs
     
