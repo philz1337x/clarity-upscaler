@@ -160,10 +160,19 @@ class Predictor(BasePredictor):
         with open(safetensors_path, "wb") as file:
             file.write(response.content)
 
-        print(f"Custom checkpoint downloading and saving took {round(time.time() - start_time_custom, 2)} seconds")
+        print(f"Checkpoint downloading took {round(time.time() - start_time_custom, 2)} seconds")
 
         return safetensors_path
 
+    def calc_scale_factors(self, value):
+        lst = []
+        while value >= 2: 
+            lst.append(2)
+            value /= 2 
+        if value > 1:
+            lst.append(value)
+        return lst
+    
     def predict(
         self,
         image: Path = Input(description="input image"),
@@ -218,9 +227,8 @@ class Predictor(BasePredictor):
             default=""
         ),
         custom_sd_model: str = Input(
-            description="Link to a custom safetensors checkpoint file you want to use in your upscaling. Will overwrite sd_model checkpoint.",
             default=""
-        ),
+        )
     ) -> list[Path]:
         """Run a single prediction on the model"""
         print("Running prediction")
@@ -270,83 +278,102 @@ class Predictor(BasePredictor):
         base64_encoded_data = base64.b64encode(binary_image_data)
         base64_image = base64_encoded_data.decode('utf-8')
 
-        payload = {
-            "override_settings": {
-                "sd_model_checkpoint": sd_model,
-                "sd_vae": "vae-ft-mse-840000-ema-pruned.safetensors",
-                 "CLIP_stop_at_last_layers": 1,
-            },
-            "override_settings_restore_afterwards": False,
-            "init_images": [base64_image],
-            "prompt": prompt,
-            "negative_prompt": negative_prompt,
-            "steps": num_inference_steps,
-            "cfg_scale": dynamic,
-            "seed": seed,
-            "do_not_save_samples": True,
-            "sampler_name": scheduler,
-            "denoising_strength": creativity,
-            "alwayson_scripts": {
-                "Tiled Diffusion": {
-                    "args": [
-                        True,
-                        "MultiDiffusion",
-                        True,
-                        True,
-                        1,
-                        1,
-                        tiling_width,
-                        tiling_height,
-                        4,
-                        8,
-                        "4x-UltraSharp",
-                        scale_factor, 
-                        False, 
-                        0,
-                        0.0, 
-                        3,
-                    ]
-                },
-                "Tiled VAE": {
-                    "args": [
-                        True,
-                        3072,
-                        192,
-                        True,
-                        True,
-                        True,
-                        True,
-                    ]
+        multipliers = [scale_factor]
+        if scale_factor > 2:
+            multipliers = self.calc_scale_factors(scale_factor)
+            print("Upscale your image " + str(len(multipliers)) + " times")
+        
+        first_iteration = True
 
+        for multiplier in multipliers:
+            print("Upscaling with scale_factor: ", multiplier)
+            
+            if not first_iteration:
+                creativity = creativity * 0.8
+                tiling_width = tiling_width + 16
+                tiling_width = max(256, tiling_width)
+                tiling_height = tiling_height + 16
+                tiling_height = max(256, tiling_height)
+                first_iteration = False
+
+            payload = {
+                "override_settings": {
+                    "sd_model_checkpoint": sd_model,
+                    "sd_vae": "vae-ft-mse-840000-ema-pruned.safetensors",
+                    "CLIP_stop_at_last_layers": 1,
                 },
-                "controlnet": {
-                    "args": [
-                        {
-                            "enabled": True,
-                            "module": "tile_resample",
-                            "model": "control_v11f1e_sd15_tile",
-                            "weight": resemblance,
-                            "image": base64_image,
-                            "resize_mode": 1,
-                            "lowvram": False,
-                            "downsample": 1.0,
-                            "guidance_start": 0.0,
-                            "guidance_end": 1.0,
-                            "control_mode": 1,
-                            "pixel_perfect": True,
-                            "threshold_a": 1,
-                            "threshold_b": 1,
-                            "save_detected_map": False,
-                            "processor_res": 512,
-                        }
-                    ]
+                "override_settings_restore_afterwards": False,
+                "init_images": [base64_image],
+                "prompt": prompt,
+                "negative_prompt": negative_prompt,
+                "steps": num_inference_steps,
+                "cfg_scale": dynamic,
+                "seed": seed,
+                "do_not_save_samples": True,
+                "sampler_name": scheduler,
+                "denoising_strength": creativity,
+                "alwayson_scripts": {
+                    "Tiled Diffusion": {
+                        "args": [
+                            True,
+                            "MultiDiffusion",
+                            True,
+                            True,
+                            1,
+                            1,
+                            tiling_width,
+                            tiling_height,
+                            4,
+                            8,
+                            "4x-UltraSharp",
+                            multiplier, 
+                            False, 
+                            0,
+                            0.0, 
+                            3,
+                        ]
+                    },
+                    "Tiled VAE": {
+                        "args": [
+                            True,
+                            2048,
+                            128,
+                            True,
+                            True,
+                            True,
+                            True,
+                        ]
+                    },
+                    "controlnet": {
+                        "args": [
+                            {
+                                "enabled": True,
+                                "module": "tile_resample",
+                                "model": "control_v11f1e_sd15_tile",
+                                "weight": resemblance,
+                                "image": base64_image,
+                                "resize_mode": 1,
+                                "lowvram": False,
+                                "downsample": 1.0,
+                                "guidance_start": 0.0,
+                                "guidance_end": 1.0,
+                                "control_mode": 1,
+                                "pixel_perfect": True,
+                                "threshold_a": 1,
+                                "threshold_b": 1,
+                                "save_detected_map": False,
+                                "processor_res": 512,
+                            }
+                        ]
+                    }
                 }
             }
-        }
 
-        req = self.StableDiffusionImg2ImgProcessingAPI(**payload)
-        resp = self.api.img2imgapi(req)
-        info = json.loads(resp.info)
+            req = self.StableDiffusionImg2ImgProcessingAPI(**payload)
+            resp = self.api.img2imgapi(req)
+            info = json.loads(resp.info)
+
+            base64_image = resp.images[0]
 
         outputs = []
 
