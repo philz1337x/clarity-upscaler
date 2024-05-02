@@ -16,6 +16,9 @@ import cv2
 
 from cog import BasePredictor, Input, Path
 
+from PIL import Image, ImageFilter
+import tempfile
+
 class Predictor(BasePredictor):
     def setup(self) -> None:
         """Load the model into memory to make running multiple predictions efficient"""
@@ -228,7 +231,10 @@ class Predictor(BasePredictor):
         ),
         custom_sd_model: str = Input(
             default=""
-        )
+        ),
+        sharpen: float = Input(
+            description="Sharpen the image after upscaling. The higher the value, the more sharpening is applied. 0 for no sharpening", ge=0, le=10, default=0
+        ),
     ) -> list[Path]:
         """Run a single prediction on the model"""
         print("Running prediction")
@@ -290,6 +296,7 @@ class Predictor(BasePredictor):
             
             if not first_iteration:
                 creativity = creativity * 0.8
+                seed = seed +1
                 
             first_iteration = False
 
@@ -372,15 +379,32 @@ class Predictor(BasePredictor):
 
             base64_image = resp.images[0]
 
-        outputs = []
+            outputs = []
 
-        for i, image in enumerate(resp.images):
-            seed = info.get("all_seeds", [])[i] or "unknown_seed"
-            gen_bytes = BytesIO(base64.b64decode(image))
-            filename = f"{seed}-{uuid.uuid1()}.png"
-            with open(filename, "wb") as f:
-                f.write(gen_bytes.getvalue())
-            outputs.append(Path(filename))
+            for i, image in enumerate(resp.images):
+                seed = info.get("all_seeds", [])[i] or "unknown_seed"
+                gen_bytes = BytesIO(base64.b64decode(image))
+                filename = f"{seed}-{uuid.uuid1()}.png"
+                with open(filename, "wb") as f:
+                    f.write(gen_bytes.getvalue())
+
+                if sharpen > 0:
+                    imageObject = Image.open(filename)
+
+                    a = -sharpen / 10
+                    b = 1 - 8 * a
+                    kernel = [a, a, a, a, b, a, a, a, a]
+                    kernel_filter = ImageFilter.Kernel((3, 3), kernel, scale=1, offset=0)
+
+                    imageObject = imageObject.filter(kernel_filter)
+
+                    temp_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
+                    imageObject.save(temp_file_path, format='PNG')
+                    temp_file_path.close()
+                    
+                    outputs.append(Path(temp_file_path.name))
+                else:
+                    outputs.append(Path(filename))
         
         if custom_sd_model:
             os.remove(path_to_custom_checkpoint)
