@@ -2,9 +2,9 @@
 
 <h1> Clarity AI | AI Image Upscaler & Enhancer - free and open-source Magnific Alternative </h1>
 
-[![App](https://img.shields.io/badge/App-ClarityAI.cc-blueviolet)](https://ClarityAI.cc)
+[![App](https://img.shields.io/badge/App-ClarityAI.co-blueviolet)](https://ClarityAI.co)
 
-[![API](https://img.shields.io/badge/API-ClarityAI.cc/api-green)](https://ClarityAI.cc/api) [![GitHub Repo](https://img.shields.io/badge/GitHub-ComfyUI--ClarityAI-blue?logo=github)](https://github.com/philz1337x/ComfyUI-ClarityAI)
+[![API](https://img.shields.io/badge/API-ClarityAI.co/api-green)](https://ClarityAI.co/api) [![GitHub Repo](https://img.shields.io/badge/GitHub-ComfyUI--ClarityAI-blue?logo=github)](https://github.com/philz1337x/ComfyUI-ClarityAI)
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/philz1337x?style=social)](https://twitter.com/philz1337x)
 ![GitHub stars](https://img.shields.io/github/stars/philz1337x/clarity-upscaler?style=social&label=Star)
@@ -36,19 +36,19 @@ I build open source AI apps. To finance my work i also build paid versions of my
 
 ## 🧑‍💻 App
 
-The simplest option to use Clarity is with the app at [ClarityAI.cc](https://ClarityAI.cc)
+The simplest option to use Clarity is with the app at [ClarityAI.co](https://ClarityAI.co)
 
 ## 🐰 ComfyUI
 
 1. Open ComfyUI Manager, search for Clarity AI, and install the node.
-2. Create an API key at: [ClarityAI.cc/ComfyUI](https://ClarityAI.cc/comfyui)
+2. Create an API key at: [ClarityAI.co/ComfyUI](https://ClarityAI.co/comfyui)
 3. Add the API key to the node as a) envirement variable `CAI_API_KEY` OR b) to a `cai_platform_key.txt` text file OR c) in `api_key_override` field of the node.
 
 Full instructions: https://github.com/philz1337x/ComfyUI-ClarityAI
 
 ## ⚙️ API
 
-Use the API at: [ClarityAI.cc/API](https://ClarityAI.cc/api)
+Use the API at: [ClarityAI.co/API](https://ClarityAI.co/api)
 
 ## Advanced: Deploy and run with cog (locally or cloud)
 
