@@ -17,7 +17,9 @@ import cv2
 from cog import BasePredictor, Input, Path
 
 from PIL import Image, ImageFilter
-import tempfile
+
+import mimetypes
+mimetypes.add_type("image/webp", ".webp")
 
 class Predictor(BasePredictor):
     def setup(self) -> None:
@@ -235,6 +237,14 @@ class Predictor(BasePredictor):
         sharpen: float = Input(
             description="Sharpen the image after upscaling. The higher the value, the more sharpening is applied. 0 for no sharpening", ge=0, le=10, default=0
         ),
+        mask: Path = Input(
+            description="Mask image to mark areas that should be preserved during upscaling", default=None
+        ),
+        output_format: str = Input(
+            description="Format of the output images",
+            choices=["webp", "jpg", "png"],
+            default="png",
+        )
     ) -> list[Path]:
         """Run a single prediction on the model"""
         print("Running prediction")
@@ -260,6 +270,10 @@ class Predictor(BasePredictor):
 
         with open(image_file_path, "rb") as image_file:
             binary_image_data = image_file.read()
+
+        if mask:
+            with Image.open(image_file_path) as img:
+                original_resolution = img.size
 
         if downscaling:
             image_np_array = np.frombuffer(binary_image_data, dtype=np.uint8)
@@ -383,29 +397,42 @@ class Predictor(BasePredictor):
 
             for i, image in enumerate(resp.images):
                 seed = info.get("all_seeds", [])[i] or "unknown_seed"
+
                 gen_bytes = BytesIO(base64.b64decode(image))
-                filename = f"{seed}-{uuid.uuid1()}.png"
-                with open(filename, "wb") as f:
-                    f.write(gen_bytes.getvalue())
+                imageObject = Image.open(gen_bytes)
 
+                if mask:
+                    imageObject = imageObject.resize(original_resolution, Image.LANCZOS)
+                    original_image = Image.open(image_file_path).resize(original_resolution, Image.LANCZOS)
+                    mask_image = Image.open(mask).convert("L").resize(original_resolution, Image.LANCZOS)
+                    
+                    blur_radius = 5
+                    mask_image = mask_image.filter(ImageFilter.GaussianBlur(blur_radius))
+                    combined_image = Image.composite(original_image, imageObject, mask_image)
+
+                    imageObject = combined_image
+                
                 if sharpen > 0:
-                    imageObject = Image.open(filename)
-
                     a = -sharpen / 10
                     b = 1 - 8 * a
                     kernel = [a, a, a, a, b, a, a, a, a]
                     kernel_filter = ImageFilter.Kernel((3, 3), kernel, scale=1, offset=0)
 
                     imageObject = imageObject.filter(kernel_filter)
+                
+                optimised_file_path = Path(f"{seed}-{uuid.uuid1()}.{output_format}")
 
-                    temp_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
-                    imageObject.save(temp_file_path, format='PNG')
-                    temp_file_path.close()
-                    
-                    outputs.append(Path(temp_file_path.name))
+                if output_format in ["webp", "jpg"]:
+                    imageObject.save(
+                        optimised_file_path,
+                        quality=95,
+                        optimize=True,
+                    )
                 else:
-                    outputs.append(Path(filename))
-        
+                    imageObject.save(optimised_file_path)
+
+                outputs.append(optimised_file_path)
+
         if custom_sd_model:
             os.remove(path_to_custom_checkpoint)
             print(f"Custom checkpoint {path_to_custom_checkpoint} has been removed.")
