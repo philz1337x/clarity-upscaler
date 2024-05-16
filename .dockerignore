@@ -15,3 +15,5 @@ __pycache__
 
 # Exclude Python virtual environment
 /venv
+
+example.gif
