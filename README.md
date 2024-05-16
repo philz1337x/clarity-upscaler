@@ -21,7 +21,9 @@ I build open source AI apps. To finance my work i also build paid versions of my
 
 # 🗞️ Updates
 
-- 05/07/2024: ComfyUI node
+- 05/16/2024: Output file format: jpg/png/webp
+- 05/02/2024: Sharpen image
+- 05/07/2024: ComfyUI node (https://x.com/philz1337x/status/1787905308439826920)
 - 04/12/2024: Multi-step upscaling (https://x.com/philz1337x/status/1785269458304442565)
 - 04/07/2024: Resemblance fixed (https://x.com/levelsio/status/1776729356120797265)
 - 04/05/2024: Speed Improvements (https://x.com/philz1337x/status/1776121175195975888)
