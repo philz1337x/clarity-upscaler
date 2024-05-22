@@ -13,6 +13,7 @@ build:
     - "lpips==0.1.4"
     - "realesrgan==0.3.0"
     - "gdown==5.1.0"
+    - "mediapipe==0.10.14"
   run:
     - git config --global --add safe.directory /src
     - git clone https://github.com/philz1337x/stable-diffusion-webui-cog-init /stable-diffusion-webui

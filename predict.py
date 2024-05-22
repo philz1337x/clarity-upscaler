@@ -5,6 +5,7 @@ from modules import initialize
 from urllib.parse import urlparse
 from fastapi import FastAPI
 from io import BytesIO
+from PIL import Image, ImageFilter
 
 import os, json
 import numpy as np
@@ -13,12 +14,12 @@ import base64
 import uuid
 import time
 import cv2
+import mimetypes
 
 from cog import BasePredictor, Input, Path
 
-from PIL import Image, ImageFilter
+from handfix.handfix import (detect_and_crop_hand_from_binary, insert_cropped_hand_into_image)
 
-import mimetypes
 mimetypes.add_type("image/webp", ".webp")
 
 class Predictor(BasePredictor):
@@ -56,8 +57,6 @@ class Predictor(BasePredictor):
         base64_encoded_data = base64.b64encode(file_path.read_bytes())
         base64_image = base64_encoded_data.decode('utf-8')
 
-        
-        
         payload = {
            "override_settings": {
                 "sd_model_checkpoint": "juggernaut_reborn.safetensors",
@@ -240,6 +239,11 @@ class Predictor(BasePredictor):
         mask: Path = Input(
             description="Mask image to mark areas that should be preserved during upscaling", default=None
         ),
+        handfix: str = Input(
+            description="Use clarity to fix hands in the image",
+            choices=['disabled', 'hands_only', 'image_and_hands'],
+            default="disabled",
+        ),
         output_format: str = Input(
             description="Format of the output images",
             choices=["webp", "jpg", "png"],
@@ -294,6 +298,22 @@ class Predictor(BasePredictor):
 
             _, binary_resized_image = cv2.imencode('.jpg', resized_image)
             binary_image_data = binary_resized_image.tobytes()
+
+        if handfix == "hands_only":
+            print("Trying to fix hands")
+            binary_image_data_full_image = binary_image_data
+            cropped_hand_img, hand_coords = detect_and_crop_hand_from_binary(binary_image_data_full_image)
+            if cropped_hand_img is not None:
+                print("Hands detected")
+                _, buffer = cv2.imencode('.jpg', cropped_hand_img)
+                binary_image_data = buffer.tobytes()
+
+                cropped_hand_img_rgb = cv2.cvtColor(cropped_hand_img, cv2.COLOR_BGR2RGB)
+                cropped_hand_img_pil = Image.fromarray(cropped_hand_img_rgb)
+    
+            else:
+                print("No hands detected")
+                return
 
         base64_encoded_data = base64.b64encode(binary_image_data)
         base64_image = base64_encoded_data.decode('utf-8')
@@ -401,6 +421,9 @@ class Predictor(BasePredictor):
                 gen_bytes = BytesIO(base64.b64decode(image))
                 imageObject = Image.open(gen_bytes)
 
+                if handfix == "hands_only":
+                    imageObject = insert_cropped_hand_into_image(binary_image_data_full_image, imageObject, hand_coords, cropped_hand_img_pil)
+    
                 if mask:
                     imageObject = imageObject.resize(original_resolution, Image.LANCZOS)
                     original_image = Image.open(image_file_path).resize(original_resolution, Image.LANCZOS)
