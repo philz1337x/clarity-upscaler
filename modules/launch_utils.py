@@ -23,6 +23,7 @@ python = sys.executable
 git = os.environ.get('GIT', "git")
 index_url = os.environ.get('INDEX_URL', "")
 dir_repos = "repositories"
+dir_extensions = "extensions"
 
 # Whether to default to printing command output
 default_command_live = (os.environ.get('WEBUI_LAUNCH_LIVE_OUTPUT') == "1")
@@ -131,6 +132,10 @@ def is_installed(package):
 
     return dist is not None
 
+
+
+def extension_dir(name):
+    return os.path.join(script_path, dir_extensions, name)
 
 def repo_dir(name):
     return os.path.join(script_path, dir_repos, name)
@@ -348,12 +353,17 @@ def prepare_environment():
     k_diffusion_repo = os.environ.get('K_DIFFUSION_REPO', 'https://github.com/crowsonkb/k-diffusion.git')
     codeformer_repo = os.environ.get('CODEFORMER_REPO', 'https://github.com/sczhou/CodeFormer.git')
     blip_repo = os.environ.get('BLIP_REPO', 'https://github.com/salesforce/BLIP.git')
+    multidiffusion_repo = os.environ.get('MULTIDIFFUSION_REPO', 'https://github.com/pkuliyi2015/multidiffusion-upscaler-for-automatic1111.git')
+    controlnet_repo = os.environ.get('CONTROLNET_REPO', "https://github.com/Mikubill/sd-webui-controlnet.git")
 
     stable_diffusion_commit_hash = os.environ.get('STABLE_DIFFUSION_COMMIT_HASH', "cf1d67a6fd5ea1aa600c4df58e5b47da45f6bdbf")
     stable_diffusion_xl_commit_hash = os.environ.get('STABLE_DIFFUSION_XL_COMMIT_HASH', "45c443b316737a4ab6e40413d7794a7f5657c19f")
     k_diffusion_commit_hash = os.environ.get('K_DIFFUSION_COMMIT_HASH', "ab527a9a6d347f364e3d185ba6d714e22d80cb3c")
     codeformer_commit_hash = os.environ.get('CODEFORMER_COMMIT_HASH', "c5b4593074ba6214284d6acd5f1719b6c5d739af")
     blip_commit_hash = os.environ.get('BLIP_COMMIT_HASH', "48211a1594f1321b00f14c9f7a5b4813144b2fb9")
+    multidiffusion_commit_hash = os.environ.get('MULTIDIFFUSION_COMMIT_HASH', "574a0963133a34815f65bfaf985c19de54fdf323")
+    controlnet_commit_hash = os.environ.get('CONTROLNET_COMMIT_HASH', "3571b1c4d29e8176f721caee5bc4c42d44a459c2")
+
 
     try:
         # the existence of this file is a signal to webui.sh/bat that webui needs to be restarted when it stops execution
@@ -410,6 +420,11 @@ def prepare_environment():
     git_clone(stable_diffusion_xl_repo, repo_dir('generative-models'), "Stable Diffusion XL", stable_diffusion_xl_commit_hash)
     git_clone(k_diffusion_repo, repo_dir('k-diffusion'), "K-diffusion", k_diffusion_commit_hash)
     git_clone(codeformer_repo, repo_dir('CodeFormer'), "CodeFormer", codeformer_commit_hash)
+    git_clone(blip_repo, repo_dir('BLIP'), "BLIP", blip_commit_hash)
+
+    git_clone(multidiffusion_repo, extension_dir('multidiffusion-upscaler-for-automatic1111'), "multidiffusion-upscaler-for-automatic1111", multidiffusion_commit_hash)
+    git_clone(controlnet_repo, extension_dir('sd-webui-controlnet'), "sd-webui-controlnet", controlnet_commit_hash)
+
     git_clone(blip_repo, repo_dir('BLIP'), "BLIP", blip_commit_hash)
 
     startup_timer.record("clone repositores")
