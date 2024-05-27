@@ -22,6 +22,9 @@ from handfix.handfix import (detect_and_crop_hand_from_binary, insert_cropped_ha
 
 mimetypes.add_type("image/webp", ".webp")
 
+# Fixing the "DecompressionBombWarning" warning
+Image.MAX_IMAGE_PIXELS = None
+
 class Predictor(BasePredictor):
     def setup(self) -> None:
         """Load the model into memory to make running multiple predictions efficient"""
