@@ -15,6 +15,8 @@ build:
     - "gdown==5.1.0"
     - "mediapipe==0.10.14"
   run:
+    - curl -o /usr/local/bin/pget -L "https://github.com/replicate/pget/releases/latest/download/pget_$(uname -s)_$(uname -m)"
+    - chmod +x /usr/local/bin/pget
     - git config --global --add safe.directory /src
     - git clone https://github.com/philz1337x/stable-diffusion-webui-cog-init /stable-diffusion-webui
     - python /stable-diffusion-webui/init_env.py --skip-torch-cuda-test

@@ -15,6 +15,7 @@ import uuid
 import time
 import cv2
 import mimetypes
+import subprocess
 
 from cog import BasePredictor, Input, Path
 
@@ -159,15 +160,12 @@ class Predictor(BasePredictor):
 
     def download_safetensors(self, url: str):
         start_time_custom = time.time()
+
         safetensors_path = f"models/Stable-diffusion/custom-{uuid.uuid1()}.safetensors"
 
-        response = requests.get(url)
-        response.raise_for_status()
+        subprocess.check_output(["pget", url, safetensors_path])
 
-        with open(safetensors_path, "wb") as file:
-            file.write(response.content)
-
-        print(f"Checkpoint downloading took {round(time.time() - start_time_custom, 2)} seconds")
+        print(f"Checkpoint downloading with pget took {round(time.time() - start_time_custom, 2)} seconds")
 
         return safetensors_path
 
