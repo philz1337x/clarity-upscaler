@@ -77,3 +77,10 @@ download_file(
     "models/ControlNet",
     "control_v11f1e_sd15_tile.pth"
 )
+
+# VAE
+download_file(
+    "https://huggingface.co/stabilityai/sd-vae-ft-mse-original/resolve/main/vae-ft-mse-840000-ema-pruned.safetensors?download=true",
+    "models/VAE",
+    "vae-ft-mse-840000-ema-pruned.safetensors"
+)

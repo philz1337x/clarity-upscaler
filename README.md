@@ -59,13 +59,7 @@ Use the API at: [ClarityAI.co/API](https://ClarityAI.co/api)
 
 If you are not familiar with cog read: <a href=https://github.com/replicate/cog/blob/main/docs/getting-started-own-model.md>cog docs</a>
 
-- Download Checkpoints and LoRa's from Cvitai and put in /models folder (a download_weights.py file to prepare everything with one file is a work in progress)
-
-```
-https://civitai.com/models/46422/juggernaut
-https://civitai.com/models/82098?modelVersionId=87153
-https://civitai.com/models/171159?modelVersionId=236130
-```
+- run `download_weights.py`
 
 - predict with cog:
 
