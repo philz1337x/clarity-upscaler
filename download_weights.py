@@ -1,5 +1,6 @@
 import os
 import requests
+import shutil
 
 def download_file(url, folder_path, filename):
     if not os.path.exists(folder_path):
@@ -22,6 +23,7 @@ def download_file(url, folder_path, filename):
 from modules.launch_utils import prepare_environment
 prepare_environment()
 
+shutil.copyfile('modified_controlnet.py', 'extensions/sd-webui-controlnet/scripts/controlnet.py')
 
 # Checkpoints
 download_file(
