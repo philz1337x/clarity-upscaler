@@ -2,9 +2,7 @@
 from modules import timer
 from modules import initialize_util
 from modules import initialize
-from modules.tiling.seamless_tiling import preprocess_expand_canvas_for_tile_image, postprocess_crop_canvas_back
-from modules.tiling.img_utils import calculate_border_size, \
-                                    convert_pil_img_to_binary, \
+from modules.tiling.img_utils import convert_pil_img_to_binary, \
                                     convert_binary_img_to_pil, \
                                     convert_pil_img_to_base64, \
                                     shift_image, \
@@ -255,21 +253,9 @@ class Predictor(BasePredictor):
             choices=['disabled', 'hands_only', 'image_and_hands'],
             default="disabled",
         ),
-        seamless_tiling: bool = Input(
-            description="Seamless tiling",
+        pattern: bool = Input(
+            description="Upscale a pattern with seamless tiling",
             default=False,
-        ),
-        seamless_tiling_overlap_width: float = Input(
-            description="Size over overlap for tiling seam fix, default 1.0, value functions as multiplier",
-            default=1.0,
-        ),
-        seamless_tiling_overlap_blur: float = Input(
-            description="Size of the blur on the overlap for tiling seam fix, default 1.0, value functions as multiplier",
-            default=1.0,
-        ),
-        seamless_tiling_debug_mode: bool = Input(
-            description="If turned on, returns all the images in the seamless tiling process to allow for debugging",
-            default=True,
         ),
         output_format: str = Input(
             description="Format of the output images",
@@ -304,7 +290,7 @@ class Predictor(BasePredictor):
         with open(image_file_path, "rb") as image_file:
             binary_image_data = image_file.read()
 
-        if seamless_tiling:
+        if pattern:
             ## first lets save this initial image...
             init_img = convert_binary_img_to_pil(binary_image_data)
             ## now lets expand the canvas.
@@ -313,6 +299,7 @@ class Predictor(BasePredictor):
             ## now update the original binary image data.
             binary_image_data = convert_pil_img_to_binary(expanded_img)
 
+            seamless_tiling_debug_mode = False
             if seamless_tiling_debug_mode:
                 ## and here we save the outputs
                 out1 = save_output_img(init_img,
@@ -436,7 +423,7 @@ class Predictor(BasePredictor):
                 else:
                     imageObject.save(optimised_file_path)
 
-                if seamless_tiling and last_iteration:
+                if pattern and last_iteration:
                     print('--- starting seamless tiling process on the last upscale iteration')
                     gen_bytes = BytesIO(base64.b64decode(image))
                     upscaled_img = Image.open(gen_bytes)
@@ -453,6 +440,8 @@ class Predictor(BasePredictor):
                     ## now lets shift the pixels 50% to get the seam in the middle
                     shift_x = cropped_back.width // 2
                     shift_y = cropped_back.height // 2
+                    seamless_tiling_overlap_width = 1.0
+                    seamless_tiling_overlap_blur = 1.0
                     shifted_img_A = shift_image(cropped_back, shift_x, shift_y)
                     shifted_img_A_base64 = convert_pil_img_to_base64(shifted_img_A)
                     inpaint_mask_A_base64, inpaint_mask_A = get_seamless_tiling_mask(shifted_img_A_base64,
