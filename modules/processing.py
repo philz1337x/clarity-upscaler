@@ -1397,6 +1397,8 @@ class StableDiffusionProcessingImg2Img(StableDiffusionProcessing):
         if image_mask is not None:
             # image_mask is passed in as RGBA by Gradio to support alpha masks,
             # but we still want to support binary masks.
+            if isinstance(image_mask, np.ndarray):
+                image_mask = Image.fromarray(image_mask) ## mega hack, make sure mask is a Pil image..
             image_mask = create_binary_mask(image_mask)
 
             if self.inpainting_mask_invert:
