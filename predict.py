@@ -10,6 +10,7 @@ from modules.tiling.img_utils import convert_pil_img_to_binary, \
 from modules.debugging.debug_image import debug_tiling_image, \
                                           expand_canvas_tiling, \
                                           save_output_img
+from handfix.handfix import (detect_and_crop_hand_from_binary, insert_cropped_hand_into_image)
 from urllib.parse import urlparse
 from fastapi import FastAPI
 from io import BytesIO
@@ -26,8 +27,6 @@ import mimetypes
 import subprocess
 
 from cog import BasePredictor, Input, Path
-
-from handfix.handfix import (detect_and_crop_hand_from_binary, insert_cropped_hand_into_image)
 
 mimetypes.add_type("image/webp", ".webp")
 
