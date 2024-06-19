@@ -155,7 +155,7 @@ def check_run_python(code: str) -> bool:
 
 
 def git_fix_workspace(dir, name):
-    run(f'"{git}" -C "{dir}" fetch --no-auto-gc', f"Fetching all contents for {name}", f"Couldn't fetch {name}", live=True)
+    run(f'"{git}" -C "{dir}" fetch --refetch --no-auto-gc', f"Fetching all contents for {name}", f"Couldn't fetch {name}", live=True)
     run(f'"{git}" -C "{dir}" gc --aggressive --prune=now', f"Pruning {name}", f"Couldn't prune {name}", live=True)
     return
 
