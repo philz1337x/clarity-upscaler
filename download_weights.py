@@ -23,7 +23,9 @@ def download_file(url, folder_path, filename):
 from modules.launch_utils import prepare_environment
 prepare_environment()
 
+print("Modifiying controlnet.py")
 shutil.copyfile('modified_controlnet.py', 'extensions/sd-webui-controlnet/scripts/controlnet.py')
+print("Modifiying controlnet.py - Done")
 
 # Checkpoints
 download_file(
