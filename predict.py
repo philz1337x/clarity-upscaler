@@ -5,6 +5,7 @@ from modules import initialize
 from modules.tiling.img_utils import convert_pil_img_to_binary, \
                                     convert_binary_img_to_pil, \
                                     convert_pil_img_to_base64, \
+                                    convert_base64_img_to_pil, \
                                     shift_image, \
                                     draw_center_cross_image
 from modules.debugging.debug_image import debug_tiling_image, \
@@ -289,26 +290,6 @@ class Predictor(BasePredictor):
         with open(image_file_path, "rb") as image_file:
             binary_image_data = image_file.read()
 
-        if pattern:
-            ## first lets save this initial image...
-            init_img = convert_binary_img_to_pil(binary_image_data)
-            ## now lets expand the canvas.
-            expanded_img = expand_canvas_tiling(init_img, div=8, darken=False)
-
-            ## now update the original binary image data.
-            binary_image_data = convert_pil_img_to_binary(expanded_img)
-
-            seamless_tiling_debug_mode = False
-            if seamless_tiling_debug_mode:
-                ## and here we save the outputs
-                out1 = save_output_img(init_img,
-                                      f"010_init_img.{output_format}",
-                                      info_text="1. initial image")
-                out2 = save_output_img(expanded_img,
-                                      f"020_expanded.{output_format}",
-                                      info_text="2. expanded canvas")
-                outputs += [out1, out2]
-
         if mask:
             with Image.open(image_file_path) as img:
                 original_resolution = img.size
@@ -372,6 +353,25 @@ class Predictor(BasePredictor):
             ## lets also determine whether this is the _last_ iteration
             ## for our seamless tiling feature..
             last_iteration = True if i==len(multipliers) - 1 else False
+
+            if pattern and last_iteration:
+                init_img = convert_base64_img_to_pil(base64_image)
+                ## now lets expand the canvas.
+                expanded_img = expand_canvas_tiling(init_img, div=8, darken=False)
+
+                ## now update the original base64 image data.
+                base64_image = convert_pil_img_to_base64(expanded_img)
+
+                seamless_tiling_debug_mode = False
+                if seamless_tiling_debug_mode:
+                    ## and here we save the outputs
+                    out1 = save_output_img(init_img,
+                                           f"010_init_img.{output_format}",
+                                           info_text="1. initial image")
+                    out2 = save_output_img(expanded_img,
+                                           f"020_expanded.{output_format}",
+                                           info_text="2. expanded canvas")
+                    outputs += [out1, out2]
 
             payload = get_clarity_upscaler_payload(sd_model, tiling_width, tiling_height, multiplier, base64_image,
                                 resemblance, prompt, negative_prompt, num_inference_steps, dynamic, seed, scheduler,
@@ -445,8 +445,7 @@ class Predictor(BasePredictor):
                     shifted_img_A_base64 = convert_pil_img_to_base64(shifted_img_A)
                     inpaint_mask_A_base64, inpaint_mask_A = get_seamless_tiling_mask(shifted_img_A_base64,
                                                                             seamless_tiling_overlap_width,
-                                                                            seamless_tiling_overlap_blur,
-                                                                            )
+                                                                            seamless_tiling_overlap_blur)
                     ## get payload to do API inpainting
                     payload = get_clarity_upscaler_payload(sd_model, tiling_width, tiling_height, multiplier,
                                                            shifted_img_A_base64,
