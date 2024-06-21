@@ -173,20 +173,18 @@ def convert_pil_img_to_binary(pil_img):
     binary_img = imgbuffer.getvalue()
     return binary_img
 
-def convert_pil_img_to_base64_depr(pil_img):
-    imgbuffer = BytesIO()
-    pil_img.save(imgbuffer, format='PNG')
-    # Encode the bytes buffer to base64
-    img_base64 = base64.b64encode(imgbuffer.getvalue()).decode('utf-8')
-    return img_base64
-
 def convert_pil_img_to_base64(pil_img, force_rgb=True):
-    if pil_img.mode == 'RGBA':
+    if pil_img.mode == 'RGBA' and force_rgb:
         pil_img = pil_img.convert('RGB')
     buffered = BytesIO()
     pil_img.save(buffered, format="PNG")
     base64_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
     return base64_str
+
+def convert_base64_img_to_pil(base64_img):
+    binary_img = BytesIO(base64.b64decode(base64_img))
+    pil_img = Image.open(binary_img)
+    return pil_img
 
 def shift_image(img, x, y):
     """shifts the pixels, wrapping around itself"""
