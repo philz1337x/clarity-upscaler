@@ -515,10 +515,17 @@ class Predictor(BasePredictor):
 
                     ## now lets shift the image back again
                     shiftback_img_B = shift_image(seam_fix_B, -shift_x, -shift_y)
-                    shiftback_img_B.save(optimised_file_path)  ### overwrite the final output with the shiftedback image
+                    ### finally overwrite the final output with the shiftedback image
+                    if output_format in ["webp", "jpg"]:
+                        shiftback_img_B.save(
+                            optimised_file_path,
+                            quality=95,
+                            optimize=True,
+                        )
+                    else:
+                        shiftback_img_B.save(optimised_file_path)
 
                     debug_tiling_C = debug_tiling_image(shiftback_img_B)
-
                     output_tiling = expand_canvas_tiling(shiftback_img_B, div=1, darken=False)
 
                     if seamless_tiling_debug_mode:
