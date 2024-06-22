@@ -24,7 +24,9 @@ I build open source AI apps. To finance my work i also build paid versions of my
 
 # 🗞️ Updates
 
-- 05/16/2024: Output file format: jpg/png/webp
+- 06/19/2024: Pattern upscaling
+- 05/24/2024: Increased Resolution to 13kx13k (https://x.com/philz1337x/status/1793983581636690379)
+- 05/16/2024: Output file format: jpg/png/webp (https://x.com/philz1337x/status/1791431093641457824)
 - 05/02/2024: Sharpen image
 - 05/07/2024: ComfyUI node (https://x.com/philz1337x/status/1787905308439826920)
 - 04/12/2024: Multi-step upscaling (https://x.com/philz1337x/status/1785269458304442565)

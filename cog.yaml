@@ -18,6 +18,8 @@ build:
     - curl -o /usr/local/bin/pget -L "https://github.com/replicate/pget/releases/latest/download/pget_$(uname -s)_$(uname -m)"
     - chmod +x /usr/local/bin/pget
     - git config --global --add safe.directory /src
+    - git config --global --add safe.directory /src/extensions/sd-webui-controlnet
+    - git config --global --add safe.directory /src/extensions/multidiffusion-upscaler-for-automatic1111
     - git clone https://github.com/philz1337x/stable-diffusion-webui-cog-init /stable-diffusion-webui
     - python /stable-diffusion-webui/init_env.py --skip-torch-cuda-test
     - sed -i 's/from pkg_resources import packaging/import packaging/g' /root/.pyenv/versions/3.10.4/lib/python3.10/site-packages/clip/clip.py
