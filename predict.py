@@ -189,19 +189,19 @@ class Predictor(BasePredictor):
     def predict(
         self,
         image: Path = Input(description="input image"),
-        prompt: str = Input(description="Prompt", default="masterpiece, best quality, highres, <lora:more_details:0.5> <lora:SDXLrender_v2.0:1>"),
-        negative_prompt: str = Input(description="Negative Prompt", default="(worst quality, low quality, normal quality:2) JuggernautNegative-neg"),
+        prompt: str = Input(description="Prompt", default="masterpiece, best quality, highres, <lora:more_details:1> <lora:filmgrain_slider_v1:3>"),
+        negative_prompt: str = Input(description="Negative Prompt", default="(big eyes, worst quality, low quality, normal quality:2) JuggernautNegative-neg"),
         scale_factor: float = Input(
             description="Scale factor", default=2
         ),
         dynamic: float = Input(
-            description="HDR, try from 3 - 9", ge=1, le=50, default=6
+            description="HDR, try from 3 - 9", ge=1, le=50, default=5
         ),
         creativity: float = Input(
-            description="Creativity, try from 0.3 - 0.9", ge=0, le=1, default=0.35
+            description="Creativity, try from 0.3 - 0.9", ge=0, le=1, default=0.32
         ),
         resemblance: float = Input(
-            description="Resemblance, try from 0.3 - 1.6", ge=0, le=3, default=0.6
+            description="Resemblance, try from 0.3 - 1.6", ge=0, le=3, default=1.6
         ),
         tiling_width: int = Input(
             description="Fractality, set lower tile width for a high Fractality",
@@ -215,8 +215,8 @@ class Predictor(BasePredictor):
         ),
         sd_model: str = Input(
             description="Stable Diffusion model checkpoint",
-            choices=['epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]', 'juggernaut_reborn.safetensors [338b85bc4f]', 'flat2DAnimerge_v45Sharp.safetensors'],
-            default="juggernaut_reborn.safetensors [338b85bc4f]",
+            choices=['epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]', 'juggernaut_reborn.safetensors [338b85bc4f]', 'flat2DAnimerge_v45Sharp.safetensors', 'Realistic_Vision_V6.0_NV_B1.safetensors', 'Realistic_Vision_V4.safetensors', 'Stable_Diffusion_1_5', 'epicphotogasm_ultimateFidelity.safetensors'],
+            default="epicphotogasm_ultimateFidelity.safetensors",
         ),
         scheduler: str = Input(
             description="scheduler",
@@ -227,7 +227,7 @@ class Predictor(BasePredictor):
             description="Number of denoising steps", ge=1, le=100, default=18
         ),
         seed: int = Input(
-            description="Random seed. Leave blank to randomize the seed", default=1337
+            description="Random seed. Leave blank to randomize the seed", default=None
         ),
         downscaling: bool = Input(
             description="Downscale the image before upscaling. Can improve quality and speed for images with high resolution but lower quality", default=False
@@ -613,7 +613,6 @@ def get_clarity_upscaler_payload(sd_model,
     }
     alwayson_scripts = {
         "Tiled Diffusion": {"args": get_tiled_diffusion_args(tiling_width, tiling_height, multiplier)},
-        "Tiled VAE": {"args": get_tiled_vae_args()},
         "controlnet": {"args": get_controlnet_args(base64_image, resemblance)}
     }
 
