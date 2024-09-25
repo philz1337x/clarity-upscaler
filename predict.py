@@ -216,7 +216,7 @@ class Predictor(BasePredictor):
         sd_model: str = Input(
             description="Stable Diffusion model checkpoint",
             choices=['epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]', 'juggernaut_reborn.safetensors [338b85bc4f]', 'flat2DAnimerge_v45Sharp.safetensors', 'epicphotogasm_ultimateFidelity.safetensors'],
-            default="epicphotogasm_ultimateFidelity.safetensors",
+            default="juggernaut_reborn.safetensors [338b85bc4f]",
         ),
         scheduler: str = Input(
             description="scheduler",

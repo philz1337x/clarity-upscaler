@@ -46,7 +46,7 @@ download_file(
 download_file(
     "https://civitai.com/api/download/models/429454?type=Model&format=SafeTensor&size=pruned&fp=fp16",
     "models/Stable-diffusion",
-    "epiCPhotoGasm.safetensors"
+    "epicphotogasm_ultimateFidelity.safetensors"
 )
 
 # Upscaler Model
