@@ -85,6 +85,12 @@ download_file(
     "filmgrain_slider_v1.safetensors"
 )
 
+download_file(
+    "https://civitai.com/api/download/models/76092?type=Model&format=SafeTensor",
+    "models/Lora",
+    "add_sharpness.safetensors"
+)
+
 # Controlnet models
 download_file(
     "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11f1e_sd15_tile.pth?download=true",
