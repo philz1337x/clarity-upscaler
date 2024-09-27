@@ -296,23 +296,28 @@ class Predictor(BasePredictor):
 
         if downscaling:
             image_np_array = np.frombuffer(binary_image_data, dtype=np.uint8)
-
+        
             image = cv2.imdecode(image_np_array, cv2.IMREAD_UNCHANGED)
-
+        
             height, width = image.shape[:2]
-
-            if height > width:
-                scaling_factor = downscaling_resolution / float(height)
-            else:
-                scaling_factor = downscaling_resolution / float(width)
-
-            new_width = int(width * scaling_factor)
-            new_height = int(height * scaling_factor)
-
-            resized_image = cv2.resize(image, (new_width, new_height))
-
-            _, binary_resized_image = cv2.imencode('.jpg', resized_image)
-            binary_image_data = binary_resized_image.tobytes()
+        
+            # Determine the larger side of the image
+            largest_side = max(height, width)
+        
+            # Only perform downscaling if the downscaling resolution is smaller than the largest side
+            if downscaling_resolution < largest_side:
+                if height > width:
+                    scaling_factor = downscaling_resolution / float(height)
+                else:
+                    scaling_factor = downscaling_resolution / float(width)
+        
+                new_width = int(width * scaling_factor)
+                new_height = int(height * scaling_factor)
+        
+                resized_image = cv2.resize(image, (new_width, new_height))
+        
+                _, binary_resized_image = cv2.imencode('.jpg', resized_image)
+                binary_image_data = binary_resized_image.tobytes()
 
         if handfix == "hands_only":
             print("Trying to fix hands")
