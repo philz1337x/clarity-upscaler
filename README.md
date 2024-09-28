@@ -41,11 +41,15 @@ I build open source AI apps. To finance my work i also build paid versions of my
 
 # 🚀 Options to use Clarity-Upscaler
 
+Note that this repository is an implementation for cog. If you are not familiar with cog, I recommend the easier solutions. The free options are ComfyUI and A1111, while the paid but easy-to-use options are my app ClarityAI.co and the ComfyUI API Node.
+
 ## 🧑‍💻 App
 
 The simplest option to use Clarity is with the app at [ClarityAI.co](https://ClarityAI.co)
 
 ## 🐰 ComfyUI
+
+### 1. API node
 
 1. Open ComfyUI Manager, search for Clarity AI, and install the node.
 2. Create an API key at: [ClarityAI.co/ComfyUI](https://ClarityAI.co/comfyui)
@@ -53,11 +57,15 @@ The simplest option to use Clarity is with the app at [ClarityAI.co](https://Cla
 
 Full instructions: https://github.com/philz1337x/ComfyUI-ClarityAI
 
+### 2. Free workflow
+
+1. Download the repo https://github.com/philz1337x/ComfyUI-ClarityAI and use the file free-wokflow.json
+
 ## ⚙️ API
 
 Use the API at: [ClarityAI.co/API](https://ClarityAI.co/api)
 
-## Advanced: Deploy and run with cog (locally or cloud)
+## Cog
 
 If you are not familiar with cog read: <a href=https://github.com/replicate/cog/blob/main/docs/getting-started-own-model.md>cog docs</a>
 
@@ -69,7 +77,7 @@ If you are not familiar with cog read: <a href=https://github.com/replicate/cog/
 cog predict -i image="link-to-image"
 ```
 
-## Advanced: Run with A1111 webUI
+## A1111 webUI
 
 For a detailed explanation, use the tutorial in this post: https://x.com/philz1337x/status/1830504764389380466
 
