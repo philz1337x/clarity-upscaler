@@ -215,7 +215,7 @@ class Predictor(BasePredictor):
         ),
         sd_model: str = Input(
             description="Stable Diffusion model checkpoint",
-            choices=['epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]', 'juggernaut_reborn.safetensors [338b85bc4f]', 'flat2DAnimerge_v45Sharp.safetensors'],
+            choices=['epicrealism_naturalSinRC1VAE.safetensors [84d76a0328]', 'juggernaut_reborn.safetensors [338b85bc4f]', 'flat2DAnimerge_v45Sharp.safetensors', 'epicphotogasm_ultimateFidelity.safetensors'],
             default="juggernaut_reborn.safetensors [338b85bc4f]",
         ),
         scheduler: str = Input(
@@ -227,7 +227,7 @@ class Predictor(BasePredictor):
             description="Number of denoising steps", ge=1, le=100, default=18
         ),
         seed: int = Input(
-            description="Random seed. Leave blank to randomize the seed", default=1337
+            description="Random seed. Leave blank to randomize the seed", default=None
         ),
         downscaling: bool = Input(
             description="Downscale the image before upscaling. Can improve quality and speed for images with high resolution but lower quality", default=False
@@ -296,23 +296,28 @@ class Predictor(BasePredictor):
 
         if downscaling:
             image_np_array = np.frombuffer(binary_image_data, dtype=np.uint8)
-
+        
             image = cv2.imdecode(image_np_array, cv2.IMREAD_UNCHANGED)
-
+        
             height, width = image.shape[:2]
-
-            if height > width:
-                scaling_factor = downscaling_resolution / float(height)
-            else:
-                scaling_factor = downscaling_resolution / float(width)
-
-            new_width = int(width * scaling_factor)
-            new_height = int(height * scaling_factor)
-
-            resized_image = cv2.resize(image, (new_width, new_height))
-
-            _, binary_resized_image = cv2.imencode('.jpg', resized_image)
-            binary_image_data = binary_resized_image.tobytes()
+        
+            # Determine the larger side of the image
+            largest_side = max(height, width)
+        
+            # Only perform downscaling if the downscaling resolution is smaller than the largest side
+            if downscaling_resolution < largest_side:
+                if height > width:
+                    scaling_factor = downscaling_resolution / float(height)
+                else:
+                    scaling_factor = downscaling_resolution / float(width)
+        
+                new_width = int(width * scaling_factor)
+                new_height = int(height * scaling_factor)
+        
+                resized_image = cv2.resize(image, (new_width, new_height))
+        
+                _, binary_resized_image = cv2.imencode('.jpg', resized_image)
+                binary_image_data = binary_resized_image.tobytes()
 
         if handfix == "hands_only":
             print("Trying to fix hands")
