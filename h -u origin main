@@ -1,0 +1,448 @@
+[33mcommit 140da8551ee3ac05fc646a9a88c06c73dd6b6ac2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: TonyAutomatic <TonyAlarcon@autoasisten.com>
+Date:   Sat Oct 5 23:54:40 2024 +0000
+
+    Primer commit o actualización del proyecto
+
+[33mcommit cbb1e6a36c5a476bd0607aa0a48e6005051eac0e[m
+Author: p <pberben@gmx.de>
+Date:   Sat Sep 28 12:26:43 2024 +0200
+
+    Update README.md
+
+[33mcommit f9a8603cfa0539dae1be2b40fa9d56a788a90686[m
+Author: p <pberben@gmx.de>
+Date:   Sat Sep 28 12:09:39 2024 +0200
+
+    Update README.md
+
+[33mcommit e0cd797198d1e0e745400c04d8d1b98ae508c73b[m
+Author: p <pberben@gmx.de>
+Date:   Sat Jun 22 14:17:51 2024 +0200
+
+    bugfix: pattern upscaling beyond x2 & output only final image
+    
+    x
+    
+    x
+    
+    x
+    
+    x
+    
+    x
+
+[33mcommit 4f9e6004ebdcb41fec23e49eae822c613bbae16f[m
+Merge: c991b89 f29b75b
+Author: philz1337x <112502636+philz1337x@users.noreply.github.com>
+Date:   Fri Jun 21 18:44:54 2024 +0200
+
+    Merge pull request #41 from pixelprotest/main
+    
+    Fix tiling pattern upscaling beyond 2x
+
+[33mcommit f29b75b4a991238889bd8d568dd7cfb23092553a[m
+Author: j <jhooghoudt@gmail.com>
+Date:   Fri Jun 21 14:36:05 2024 +0000
+
+    Fix tiling pattern upscaling beyond 2x
+
+[33mcommit c991b896229da00c1c3f0ca6936973ebd629e9a0[m
+Merge: c14b5f0 892a422
+Author: philz1337x <112502636+philz1337x@users.noreply.github.com>
+Date:   Fri Jun 21 12:22:25 2024 +0200
+
+    Merge pull request #40 from pixelprotest/main
+    
+    Fix adhere to output_format during tiling
+
+[33mcommit 892a4220055bbefcb7a7d93c2142ed4e7b7b92af[m
+Author: pixelprotest <jhooghoudt@gmail.com>
+Date:   Wed Jun 19 16:05:37 2024 +0100
+
+    Fix adhere to output_format during tiling
+
+[33mcommit c14b5f0248f8421f9031924c6c7803b3a59518f9[m
+Merge: e7848b9 dd91f3a
+Author: philz1337x <112502636+philz1337x@users.noreply.github.com>
+Date:   Wed Jun 19 16:13:23 2024 +0200
+
+    Merge pull request #39 from pixelprotest/main
+    
+    Fix 'tiling: True' in non seamless tiling payload
+
+[33mcommit dd91f3a8acb2cf1f5f2a6f3b55bcac125d6302f5[m
+Author: pixelprotest <jhooghoudt@gmail.com>
+Date:   Wed Jun 19 15:11:29 2024 +0100
+
+    Fix 'tiling: True' in non seamless tiling payload
+
+[33mcommit e7848b991bacf09ab92f405335b5f0160cb79ea1[m
+Author: p <pberben@gmx.de>
+Date:   Wed Jun 19 12:53:29 2024 +0200
+
+    x
+
+[33mcommit ee750e66938c4f4abd82a16ec5e41f4dffd16e94[m
+Author: p <pberben@gmx.de>
+Date:   Wed Jun 19 12:52:02 2024 +0200
+
+    x
+
+[33mcommit 62e1a2089bc9e6d0bfb9614302b6dfb51168ded8[m
+Author: p <pberben@gmx.de>
+Date:   Wed Jun 19 12:50:19 2024 +0200
+
+    x
+
+[33mcommit 05fe6dead9a228ee181aae7ef7df291052bb0784[m
+Author: p <pberben@gmx.de>
+Date:   Wed Jun 19 11:52:16 2024 +0200
+
+    x
+
+[33mcommit f61fda78e6e85dc4db6c7347ede4ac69bce5560b[m
+Author: p <pberben@gmx.de>
+Date:   Tue Jun 18 20:37:05 2024 +0200
+
+    x
+
+[33mcommit 0e1b336faba9713f79dc0c7805203ce1ed6db1af[m
+Author: p <pberben@gmx.de>
+Date:   Tue Jun 18 20:35:55 2024 +0200
+
+    x
+
+[33mcommit dbeb87034bcea964e873730285eec7cbae2df63f[m
+Author: p <pberben@gmx.de>
+Date:   Tue Jun 18 19:37:03 2024 +0200
+
+    seamless tiling - controlnet fix
+
+[33mcommit 6ba9ad716a520d84a2a1eacb669b7b91dc7cef3a[m
+Merge: 0ec61db f152c9e
+Author: philz1337x <112502636+philz1337x@users.noreply.github.com>
+Date:   Tue Jun 18 19:07:03 2024 +0200
+
+    Merge pull request #38 from pixelprotest/main
+    
+    Add seamless tiling feature
+
+[33mcommit f152c9e45b21bde7f533ac7cf16d2cdc63b0c6f6[m
+Author: j <jhooghoudt@gmail.com>
+Date:   Tue Jun 18 16:18:43 2024 +0100
+
+    Add seamless tiling feature
+
+[33mcommit 0ec61dbc483b217c32b7c77fc2a5690acb80f51b[m
+Author: ecal <ethan@ecal.dev>
+Date:   Thu Jun 13 05:30:27 2024 -0400
+
+    Fix setup issues for running with cog (#33)
+    
+    * Add VAE to download_weights.py
+    
+    * Add missing extensions to launch_utils.py
+    
+    * Update README.md
+    
+    * Hack to fix broken clip
+
+[33mcommit 4b34c19f1ca61065b0c21f08b773498043152c08[m
+Author: p <pberben@gmx.de>
+Date:   Mon Jun 10 13:20:14 2024 +0200
+
+    faster downloading
+
+[33mcommit d763d9e8faeb019653a447fd6eb647dd16565ef4[m
+Author: p <pberben@gmx.de>
+Date:   Mon May 27 11:12:40 2024 +0200
+
+    Fixing the "DecompressionBombWarning" warning
+
+[33mcommit 707b4985957db8f56f35290176c10b2b6efe4807[m
+Author: p <pberben@gmx.de>
+Date:   Wed May 22 18:16:55 2024 +0200
+
+    hand enhancer
+
+[33mcommit 884ab2056d29114c5182b1d0e48e8a4b3ef66263[m
+Author: p <pberben@gmx.de>
+Date:   Tue May 21 19:36:11 2024 +0200
+
+    Update README.md
+
+[33mcommit 20400ec3b3359bfca7b82ab55b8f2620251ed12e[m
+Author: p <pberben@gmx.de>
+Date:   Thu May 16 11:44:48 2024 +0200
+
+    Update README.md
+
+[33mcommit f0b93c99606fa123dcfe9c6c4b8fafd02d3fd794[m
+Author: p <pberben@gmx.de>
+Date:   Thu May 16 10:33:53 2024 +0200
+
+    Update .dockerignore
+
+[33mcommit b833846504bb2d05bc37f14c8af64af5c4a5e1e7[m
+Author: p <pberben@gmx.de>
+Date:   Thu May 16 10:03:03 2024 +0200
+
+    Remove all __pycache__ folders and update .gitignore
+
+[33mcommit b21c7fdc635c17a18922125d4a5db9483989cf34[m
+Author: p <pberben@gmx.de>
+Date:   Thu May 16 09:59:57 2024 +0200
+
+    Create .gitignore
+
+[33mcommit 32fe1f2297fb78468d854d1a64ba3fe7163d43f3[m
+Author: p <pberben@gmx.de>
+Date:   Thu May 16 09:56:47 2024 +0200
+
+    output_format and mask
+
+[33mcommit 91152a1e918b5a1c9b559338043f8a6fbf8fc372[m
+Merge: 6d8009b 5287b99
+Author: philz1337x <112502636+philz1337x@users.noreply.github.com>
+Date:   Tue May 14 14:48:39 2024 +0200
+
+    Merge pull request #27 from anotherjesse/dockerignore
+    
+    add dockerignore
+
+[33mcommit 6d8009bc111557f2f63f9c83c00e0804ca57b5b4[m
+Author: p <pberben@gmx.de>
+Date:   Tue May 14 10:39:34 2024 +0200
+
+    Update README.md
+
+[33mcommit 5287b99cc66e1e5d9169191a0176ac7779658766[m
+Author: Jesse Andrews <anotherjesse@gmail.com>
+Date:   Wed May 8 12:52:34 2024 -0400
+
+    add dockerignore
+    
+    This will decrease size of cog by almost 1 GB
+    
+    74M     ./repositories/stable-diffusion-stability-ai/.git
+    7.3M    ./repositories/BLIP/.git
+    43M     ./repositories/generative-models/.git
+    18M     ./repositories/CodeFormer/.git
+    452K    ./repositories/k-diffusion/.git
+    42M     ./.git
+    1.4M    ./extensions/multidiffusion-upscaler-for-automatic1111/.git
+    19M     ./extensions/sd-webui-controlnet/.git
+    523M    ./models/Lora/.git
+
+[33mcommit 3fd9383e2e63e0338df2a6c0f7709d4a7e2068af[m
+Author: p <pberben@gmx.de>
+Date:   Tue May 7 13:18:52 2024 +0200
+
+    Update README.md
+
+[33mcommit 5f746ed77f3f000eebc4a8947984306e21511824[m
+Author: p <pberben@gmx.de>
+Date:   Thu May 2 11:09:53 2024 +0200
+
+    Sharpen
+
+[33mcommit 03cc25b0634cc2c8809f92e32e9aa33753b2827c[m
+Author: p <pberben@gmx.de>
+Date:   Sat Apr 13 19:03:16 2024 +0700
+
+    Multi-step improvement
+
+[33mcommit 8275d3f4cc40ef834c0ff57510f9f6d438c5bc2b[m
+Author: p <pberben@gmx.de>
+Date:   Fri Apr 12 14:05:13 2024 +0700
+
+    Multi-step upscaling
+
+[33mcommit 8f33e4402755a4515a6ae3facd29a7d47be386c5[m
+Author: p <pberben@gmx.de>
+Date:   Tue Apr 9 15:41:03 2024 +0700
+
+    Juggernaut bugfix
+
+[33mcommit dff5ef4e97d90b94a2be86d8fcc0eb12eafcbd3f[m
+Author: p <pberben@gmx.de>
+Date:   Mon Apr 8 10:59:37 2024 +0700
+
+    custom ckpts round time
+
+[33mcommit 11b10c8aecacade94a98034c2bf29cc9cc3da669[m
+Author: p <pberben@gmx.de>
+Date:   Mon Apr 8 10:34:36 2024 +0700
+
+    unique cusom safetensors filename
+
+[33mcommit 417453e4ab3059ae351e145bc23b2b9ec0a540fc[m
+Author: p <pberben@gmx.de>
+Date:   Fri Apr 5 21:41:52 2024 +0700
+
+    Update README.md
+
+[33mcommit 79e3b56c6b11d1f8ad3c02e5c2dc50ceac1478b8[m
+Author: p <pberben@gmx.de>
+Date:   Thu Apr 4 18:45:16 2024 +0700
+
+    Speed improvements
+
+[33mcommit 33746d8f82baf3234b41f1e200b683bfe5e60ae9[m
+Author: p <pberben@gmx.de>
+Date:   Thu Apr 4 13:18:59 2024 +0700
+
+    updated download_weights.py
+
+[33mcommit 8726710dbb63c51cd20d8daea33afb0ab3d0855c[m
+Author: p <pberben@gmx.de>
+Date:   Thu Apr 4 13:06:36 2024 +0700
+
+    Memory and speed improvements
+
+[33mcommit cf9b66de9e035cf015fd06d06c1dfff5911134b9[m
+Author: p <pberben@gmx.de>
+Date:   Mon Apr 1 14:50:53 2024 +0700
+
+    Update README.md
+
+[33mcommit 2e1b1ac643321fe193d37fb20867ce6f63841794[m
+Author: p <pberben@gmx.de>
+Date:   Mon Apr 1 14:48:25 2024 +0700
+
+    Update README.md
+
+[33mcommit 921645213152bca64817a2b0b0af0fcb4f178148[m
+Author: p <pberben@gmx.de>
+Date:   Mon Apr 1 14:37:52 2024 +0700
+
+    Delete convert_diffusers_to_original_stable_diffusion.py
+
+[33mcommit a9d854d8d9abb2c0aa7fadd666fc3fef566a69fe[m
+Author: p <pberben@gmx.de>
+Date:   Mon Apr 1 14:36:32 2024 +0700
+
+    Update README.md
+
+[33mcommit 3f8ed4a8c5ccd90a1350bb23b8db3afc72ff04d4[m
+Author: p <pberben@gmx.de>
+Date:   Mon Apr 1 14:34:14 2024 +0700
+
+    Support custom safetensor checkpoints
+
+[33mcommit 5e36d9ffc70573f9a9de2243d442b5f84c532328[m
+Author: p <pberben@gmx.de>
+Date:   Thu Mar 28 17:19:59 2024 +0700
+
+    Update Readme
+
+[33mcommit 90127ea4247c2ddd503fa62736b2b48f0df93a2e[m
+Author: p <pberben@gmx.de>
+Date:   Thu Mar 28 17:19:18 2024 +0700
+
+    Update download_weights.py
+
+[33mcommit 8f3f9c041efeb551a1cff2bab33fc549f5de6022[m
+Author: p <pberben@gmx.de>
+Date:   Thu Mar 28 15:27:50 2024 +0700
+
+    anime checkpoint added
+
+[33mcommit 37f9aeb9ff2d335781420a333a7c1e2f1f289834[m
+Author: p <pberben@gmx.de>
+Date:   Wed Mar 27 11:41:40 2024 +0700
+
+    resemblance slider
+
+[33mcommit e40ae3e4d1142a993f55b2f5e4d0abc071b69d1c[m
+Author: p <pberben@gmx.de>
+Date:   Tue Mar 26 16:14:48 2024 +0700
+
+    x
+    
+    x
+
+[33mcommit b264ba82c7f52811fd04fb735f7339a101075203[m
+Author: p <pberben@gmx.de>
+Date:   Tue Mar 26 15:52:47 2024 +0700
+
+    lora custom link
+
+[33mcommit 7e84b05fedff401fc2c634f18ab62501c5fb6f23[m
+Author: p <pberben@gmx.de>
+Date:   Thu Mar 21 11:19:44 2024 +0700
+
+    x
+
+[33mcommit 2c4cc222b6c32d7f9f65657869ac373ca4714fdb[m
+Author: p <pberben@gmx.de>
+Date:   Thu Mar 21 10:20:19 2024 +0700
+
+    added downscaling
+
+[33mcommit 07eaddb60c7396ab4e3932dae58005f2de597ecb[m
+Author: p <pberben@gmx.de>
+Date:   Tue Mar 19 12:59:21 2024 +0700
+
+    Links to the models on civitai
+
+[33mcommit 7eee2b9effba062b313f3021518288520566b8dc[m
+Author: p <pberben@gmx.de>
+Date:   Mon Mar 18 23:19:32 2024 +0700
+
+    sd model
+
+[33mcommit 65cb566ddb78c34349cfd938afe21d5cf28d9b1d[m
+Author: p <pberben@gmx.de>
+Date:   Mon Mar 18 22:48:19 2024 +0700
+
+    example gif
+
+[33mcommit 0831b36af2da7d6ec74c300a2c22319da630d1b7[m
+Author: p <pberben@gmx.de>
+Date:   Mon Mar 18 21:44:26 2024 +0700
+
+    x
+
+[33mcommit 9cf16eab726c9a5c4082d890f970540db9e73ec3[m
+Author: p <pberben@gmx.de>
+Date:   Mon Mar 18 15:00:51 2024 +0700
+
+    x
+
+[33mcommit 3bc19b9eb681fa8a5b41fcfb326811a7b8941e58[m
+Author: p <pberben@gmx.de>
+Date:   Mon Mar 18 14:18:00 2024 +0700
+
+    replicate link fix in readme
+
+[33mcommit 76cf6905bccb3544761c19ddcf2ed6b6c32ce362[m
+Author: p <pberben@gmx.de>
+Date:   Mon Mar 18 13:38:04 2024 +0700
+
+    Fractality implemented
+
+[33mcommit f7ab5d3dc88b2bab6a435a9da4a6bbad55295ee2[m
+Author: p <pberben@gmx.de>
+Date:   Mon Mar 18 12:40:05 2024 +0700
+
+    Update README.md
+
+[33mcommit 3ec226441079575b6d09af49993ad94fb715ae1c[m
+Author: p <pberben@gmx.de>
+Date:   Fri Mar 15 22:25:14 2024 +0700
+
+    Update README.md
+
+[33mcommit 03b1f3d45590d7cac713eb4826ac4a6e900c2086[m
+Author: p <pberben@gmx.de>
+Date:   Fri Mar 15 22:23:19 2024 +0700
+
+    init
+
+[33mcommit 912c4e77f1be65bef3754b534936f272051414c8[m
+Author: p <pberben@gmx.de>
+Date:   Fri Mar 15 22:21:35 2024 +0700
+
+    Initial commit
