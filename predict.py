@@ -229,6 +229,9 @@ class Predictor(BasePredictor):
         seed: int = Input(
             description="Random seed. Leave blank to randomize the seed", default=1337
         ),
+        multistep_factor: float = Input(
+            description="Multiplier for the number of denoising steps. 0.9 for 90% less steps, 1.1 for 10% more steps", ge=0, le=2, default=0.8
+        ),
         downscaling: bool = Input(
             description="Downscale the image before upscaling. Can improve quality and speed for images with high resolution but lower quality", default=False
         ),
@@ -344,7 +347,7 @@ class Predictor(BasePredictor):
             print("Upscaling with scale_factor: ", multiplier)
 
             if not first_iteration:
-                creativity = creativity * 0.8
+                creativity = creativity * multistep_factor
                 seed = seed +1
 
             first_iteration = False
