@@ -43,6 +43,11 @@ download_file(
     "models/Stable-diffusion",
     "epicrealism_naturalSinRC1VAE.safetensors"
 )
+download_file(
+    "https://civitai.com/api/download/models/429454?type=Model&format=SafeTensor&size=pruned&fp=fp16",
+    "models/Stable-diffusion",
+    "epicphotogasm_ultimateFidelity.safetensors"
+)
 
 # Upscaler Model
 download_file(
@@ -73,6 +78,17 @@ download_file(
     "https://huggingface.co/philz1337x/loras/resolve/main/more_details.safetensors?download=true",
     "models/Lora",
     "more_details.safetensors"
+)
+download_file(
+    "https://civitai.com/api/download/models/174461?type=Model&format=SafeTensor",
+    "models/Lora",
+    "filmgrain_slider_v1.safetensors"
+)
+
+download_file(
+    "https://civitai.com/api/download/models/76092?type=Model&format=SafeTensor",
+    "models/Lora",
+    "add_sharpness.safetensors"
 )
 
 # Controlnet models
