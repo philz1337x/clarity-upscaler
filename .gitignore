@@ -2,3 +2,6 @@ __pycache__
 .mypy_cache
 .pytest_cache
 .ruff_cache
+*.safetensors
+*.ckpt
+*.pth
