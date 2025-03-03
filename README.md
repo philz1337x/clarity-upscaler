@@ -5,9 +5,6 @@
 [![App](https://img.shields.io/badge/App-ClarityAI.co-blueviolet)](https://ClarityAI.co)
 
 [![API](https://img.shields.io/badge/API-ClarityAI.co/api-green)](https://ClarityAI.co/api)
-[![Replicate](https://img.shields.io/badge/Demo-Replicate-purple)](https://replicate.com/philz1337x/clarity-upscaler)
-
-[![GitHub Repo](https://img.shields.io/badge/GitHub-ComfyUI--ClarityAI-blue?logo=github)](https://github.com/philz1337x/ComfyUI-ClarityAI)
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/philz1337x?style=social)](https://twitter.com/philz1337x)
 ![GitHub stars](https://img.shields.io/github/stars/philz1337x/clarity-upscaler?style=social&label=Star)
@@ -47,6 +44,10 @@ Note that this repository is an implementation for cog. If you are not familiar 
 
 The simplest option to use Clarity is with the app at [ClarityAI.co](https://ClarityAI.co)
 
+## ⚙️ API
+
+To integrate Clarity Upscaler with an API into your application use: [ClarityAI.co/API](https://ClarityAI.co/api)
+
 ## 🐰 ComfyUI
 
 ### 1. API node
@@ -61,11 +62,7 @@ Full instructions: https://github.com/philz1337x/ComfyUI-ClarityAI
 
 1. Download the repo https://github.com/philz1337x/ComfyUI-ClarityAI and use the file free-wokflow.json
 
-## ⚙️ API
-
-Use the API at: [ClarityAI.co/API](https://ClarityAI.co/api)
-
-## Cog
+## 🕵️‍♂️ Cog
 
 If you are not familiar with cog read: <a href=https://github.com/replicate/cog/blob/main/docs/getting-started-own-model.md>cog docs</a>
 
@@ -77,7 +74,7 @@ If you are not familiar with cog read: <a href=https://github.com/replicate/cog/
 cog predict -i image="link-to-image"
 ```
 
-## A1111 webUI
+## 🤹‍♂️ A1111 webUI
 
 For a detailed explanation, use the tutorial in this post: https://x.com/philz1337x/status/1830504764389380466
 
