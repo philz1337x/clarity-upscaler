@@ -21,6 +21,7 @@ I build open source AI apps. To finance my work i also build paid versions of my
 
 # 🗞️ Updates
 
+- 03/05/2025: Flux upscaling only via my app and api: (http://clarityai.co/flux-upscaler)
 - 06/19/2024: Pattern upscaling
 - 05/24/2024: Increased Resolution to 13kx13k (https://x.com/philz1337x/status/1793983581636690379)
 - 05/16/2024: Output file format: jpg/png/webp (https://x.com/philz1337x/status/1791431093641457824)
@@ -35,6 +36,13 @@ I build open source AI apps. To finance my work i also build paid versions of my
 - 03/21/2024: Pre downscaling (https://x.com/philz1337x/status/1770680096031961351)
 - 03/18/2024: Fractality (https://x.com/philz1337x/status/1769756654533485050)
 - 03/15/2024: Code release (https://x.com/philz1337x/status/1768679154726359128)
+
+# 🔎 Upscaling with Flux
+
+Flux Upscaling is now available at [ClarityAI.co/flux-upscaler](http://clarityai.co/flux-upscaler) and is not open-source
+
+- It supports Flux LoRas with a style or a face
+- It's very good at faces, text, art, and generating error-free images
 
 # 🚀 Options to use Clarity-Upscaler
 
